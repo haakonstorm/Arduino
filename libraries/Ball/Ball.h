@@ -1,5 +1,5 @@
-#ifndef Common_h
-#define Common_h
+#ifndef Ball_h
+#define Ball_h
 
 // First, define pins for LEDS:
 #define RED 6
