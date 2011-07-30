@@ -1,6 +1,6 @@
 #include <EEPROM.h>
 #include <Common.h>
-#include <MSTimer2.h>
+#include <MsTimer2.h>
 
 
 void setup(){
