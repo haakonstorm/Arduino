@@ -1,22 +1,23 @@
 #include <Ball.h>
-#include <EEPROM.h>
 #include <WProgram.h>
+#include <EEPROM.h>
+
 // Numerical constants used for battery level etc 
 
 
 Ball::Ball(){ //Constructor.
-  analogReference(EXTERNAL);
+	analogReference(EXTERNAL);
 
   //øk frekvense på pwm: se http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
-  TCCR0B = TCCR0B & 0b11111000 | 0x02;
-  TCCR1B = TCCR1B & 0b11111000 | 0x02;
+  	TCCR0B = TCCR0B & 0b11111000 | 0x02;
+  	TCCR1B = TCCR1B & 0b11111000 | 0x02;
 
-  pinMode(BLUE, OUTPUT);
-  pinMode(RED, OUTPUT);
-  pinMode(GREEN, OUTPUT);
-  Serial.begin(19200);
-
-	
+  	pinMode(BLUE, OUTPUT);
+  	pinMode(RED, OUTPUT);
+  	pinMode(GREEN, OUTPUT);
+  	Serial.begin(19200);	
+	digitalWrite(BLUE,1);     
+      
   	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
@@ -50,16 +51,8 @@ void Ball::processAD (void){
     else{
       digitalWrite(GREEN, 1);
       digitalWrite(RED, 0);     
+      
     }
-
-Serial.print("X:");
-Serial.print(x);
-Serial.print(". Y:");
-Serial.print(y);
-Serial.print(". Z:");
-Serial.println(z);
-
-
 }
 
 
