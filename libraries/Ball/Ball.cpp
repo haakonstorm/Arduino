@@ -66,10 +66,12 @@ void Ball::processAD(void){
 
  	if (_sum < _LIMIT && _prevSum < _LIMIT){
     	_inAir = TRUE;
-      	
+      	_holdTime = count;
+      	count = 0;
     } else {
     	_inAir = FALSE;
-      	
+    	_flyTime = count;
+    	count = 0;
     }
 }
 
