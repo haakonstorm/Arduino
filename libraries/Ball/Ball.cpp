@@ -47,13 +47,20 @@ Ball::Ball(){
 void Ball::processAD(void){
   	
   	static int count = 0;
+  	static long longX, longY, longZ;
 
 	_x = analogRead(X) - _xN;
   	_y = analogRead(Y) - _yN;
   	_z = analogRead(Z) - _zN;
   	
+  	longX = _x;
+  	longY = _y;
+  	longZ = _z;
+  	
     _prevF = _F;
-	_F = sqrt(_x*_x+_y*_y+_z*_z);
+	_F = (int) sqrt (longX * longX + longY * longY + longZ * longZ);
+	
+	//_F = sqrt(_x*_x+_y*_y+_z*_z);
 	 	
 	count ++;	
    
