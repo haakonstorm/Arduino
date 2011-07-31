@@ -1,23 +1,11 @@
 #include <Ball.h>
 #include <EEPROM.h>
 #include <WProgram.h>
-#include <MsTimer2.h>
 // Numerical constants used for battery level etc 
 
 
 Ball::Ball(){ //Constructor.
 	
-	analogReference(EXTERNAL);
-
-  	//øk frekvense på pwm: se http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
-    TCCR0B = TCCR0B & 0b11111000 | 0x02;
-    TCCR1B = TCCR1B & 0b11111000 | 0x02;
-    
-  	pinMode(BLUE, OUTPUT);
-  	pinMode(RED, OUTPUT);
-  	pinMode(GREEN, OUTPUT);
-  	Serial.begin(19200);
-
   	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
@@ -38,7 +26,7 @@ void Ball::processAD (void){
     if(sum>255)
       sum=255;
 
-    if(sum < 15){
+    if(sum < LIMIT){
       digitalWrite(RED, 1);     
       digitalWrite(GREEN, 0);     
     }
