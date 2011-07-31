@@ -64,15 +64,12 @@ void Ball::processAD(void){
     if (_sum > 255)
       _sum = 255;
 
-
-    if (_sum < _LIMIT && _prevSum < _LIMIT){
+ 	if (_sum < _LIMIT && _prevSum < _LIMIT){
     	_inAir = TRUE;
-      	digitalWrite(REDPIN, 1);     
-      	digitalWrite(GREENPIN, 0);     
+      	
     } else {
     	_inAir = FALSE;
-      	digitalWrite(GREENPIN, 1);
-      	digitalWrite(REDPIN, 0);     
+      	
     }
 }
 
