@@ -76,7 +76,7 @@ void Ball::processAD(void){
     }
 }
 
-void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
+void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
 }
 
 void Ball::setColor(char R, char G, char B){
