@@ -2,12 +2,9 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-
 Ball ball;
 
-
 void setup(){
-<<<<<<< HEAD
   Serial.begin(19200);
   
   MsTimer2::set(5, readAD); // 5ms period, 200Hz
@@ -23,10 +20,6 @@ void setup(){
 void reportWrapper(){
   ball.processAD();
   Serial.println(ball.sumF);
-=======
-  MsTimer2::set(5, readAD); // 5ms period, fSample = 200Hz. (too fast?)
-  MsTimer2::start();
->>>>>>> removed some conflict, probably made some new ones
 }
 
 void readAD(){
@@ -42,17 +35,9 @@ void readAD(){
   else {
     ball.setColor(0,255,0);
   }
-  
-  
 }
 
 void loop(){
-  
-<<<<<<< HEAD
-=======
-  
-
->>>>>>> removed some conflict, probably made some new ones
 }
 
 

@@ -46,78 +46,42 @@ class Ball{
 
 	// PUBLIC
 	public:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	
->>>>>>> Further cleanup & some extras
-	Ball(void);
-	int x, y, z, sumF, F;
-	void processAD(void);
-	void colorFade(void);
-	void setColor(char R, char G, char B);
-	void report(void);
-	
-	// PRIVATE
-	private:
 
-    // Numerical constants used for battery level etc 
-<<<<<<< HEAD
-	static const float voltsPrBit =  0.00322265f;
-	static const float voltsPrBitDivided = 0.0064453f;
-=======
 		Ball(void);
+		int x, y, z, sumF, F;
 		void processAD(void);
 		void colorFade(void);
+		void setColor(char R, char G, char B);
+		void report(void);
 		void detectPattern (unsigned char siteswapValue);
 		void predictThrow(void);
 		bool getLanded();
 		unsigned char getSiteswap();
-		
+			
+	// PRIVATE
 	private:
-	    // Numerical constants used for battery level etc 
-		static const float voltsPrBit =  0.00322265f;
-		static const float voltsPrBitDivided = 0.0064453f;
-
-
+	
+		// Numerical constants used for battery level etc
+		static const float _voltsPrBit =  0.00322265f;
+		static const float _voltsPrBitDivided = 0.0064453f;
 		// Value for force-threshold fluing / resting
-		static const unsigned int LIMIT = 15;
-=======
-	static const float _voltsPrBit =  0.00322265f;
-	static const float _voltsPrBitDivided = 0.0064453f;
+		static const unsigned int _LIMIT = 15;
 
-	// Value for force-threshold fluing / resting
-	static const unsigned int _LIMIT = 15;
->>>>>>> Further cleanup & some extras
-
- 		// global variables. These are typical sensor readings and timer values gathered
+		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
-	
-		bool inAir;
-		unsigned int flyTime; //in samples of 5ms ea.
-		unsigned int holdTime;  // ditto
-		unsigned char color; //used by colorFade to set new color (we need a color convention).
-	
-		//Neutral values for x, y and z. Gathered from EEPROM in constructor.
-		unsigned int xN, yN, zN;
-	
+
+
+		bool _inAir;
+		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
+		unsigned int _holdTime;	// ditto
+		unsigned char _color;	// used by colorFade to set new color.
+		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
-		unsigned char siteswap; 
+		unsigned char _siteswap; 
 	
 		//semaphores:
-		bool patternLock; // is the pattern locked? if so predict value at own landing, and check of the pattern is broken based on predictions.
-		bool running; //means that the balls are in juggling use. 
-		bool landed;
-
-	
-<<<<<<< HEAD
-=======
-	unsigned char _inAir;
-	unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
-	unsigned int _holdTime;	// ditto
-	unsigned char _color;	// used by colorFade to set new color.
-	unsigned int _xN, _yN, _zN;
->>>>>>> Further cleanup & some extras
-};
+		bool _patternLock; // is the pattern locked? if so predict value at own landing, and check of the pattern is broken based on predictions.
+		bool _running; //means that the balls are in juggling use. 
+		bool _landed;
 
 #endif

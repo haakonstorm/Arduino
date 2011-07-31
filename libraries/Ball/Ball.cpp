@@ -1,3 +1,8 @@
+/*
+ * (c) 2011 Smarte baller med visuell forsterkning <smarteballer@ifi.uio.no>
+ * http://www.smarteballer.no/
+ */
+
 #include <WProgram.h>
 #include <EEPROM.h>
 #include <MsTimer2.h>
@@ -29,7 +34,6 @@ Ball::Ball(){
 	// 0x05	1024	30,637254902
 	TCCR1B = TCCR1B & 0b11111000 | 0x02;
 
-
   	pinMode(BLUEPIN, OUTPUT);
   	pinMode(REDPIN, OUTPUT);
   	pinMode(GREENPIN, OUTPUT);
@@ -37,65 +41,37 @@ Ball::Ball(){
   	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
-  	}
-
-
-
-void Ball::processAD (void){
-  	static int x,y,z;
-  	static int sum, prevSum;
-  	static int count = 0;
-
-	x = analogRead(X) - xN;
-  	y = analogRead(Y) - yN;
-  	z = analogRead(Z) - zN;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  	
 }
 
 void Ball::processAD(void){
-  	// static int x,y,z;
-  	// static int sum;
-  	// static int count = 0;
+  	static int x,y,z;
+	static int sum;
+  	static int count = 0;
 
 	x = analogRead(X) - _xN;
   	y = analogRead(Y) - _yN;
   	z = analogRead(Z) - _zN;
->>>>>>> Further cleanup & some extras
-=======
->>>>>>> removed some conflict, probably made some new ones
   	
-  	x = abs(x);
+    x = abs(x);
     y = abs(y);
   	z = abs(z);
-<<<<<<< HEAD
-  
-<<<<<<< HEAD
-=======
-=======
   	
->>>>>>> removed some conflict, probably made some new ones
-  	x=abs(x);
-    y=abs(y);
-  	z=abs(z);
-  	
-  	prevSum = sum;
+   	prevSum = sum;
    	sum = x + y + z;
-	
+	F = sqrt(x*x+y*y+z*z);
+	 	
 	count ++;	
    
-    if(sum > 255)
+    if (sum > 255)
       sum = 255;
 
   
 void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
-    if(sum < LIMIT && prevSum < LIMIT){
+    if (sum < LIMIT && prevSum < LIMIT){
     	inAir = TRUE;
       	digitalWrite(REDPIN, 1);     
       	digitalWrite(GREENPIN, 0);     
-    }else{
+    } else {
     	inAir = FALSE;
       	digitalWrite(GREENPIN, 1);
       	digitalWrite(REDPIN, 0);     
@@ -103,15 +79,9 @@ void Ball::colorFade (void){ // fades from previos color to the new one in 400 m
 }
 
 void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
-
-
 }
+
 void Ball::detectPattern(unsigned char siteswapValue){
-=======
-   	sumF = x + y + z;
-	F = sqrt(x*x+y*y+z*z);
-	
-	// count++;
 }
 
 void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
@@ -122,19 +92,18 @@ void Ball::setColor(char R, char G, char B){
 	analogWrite(GREEN, G);
 	analogWrite(BLUE, B);
 }
->>>>>>> Further cleanup & some extras
 
 void Ball::report(){
 	// Serial.write(sumF);
 }
-void Ball::predictThrow(void){
 
+void Ball::predictThrow(void){
 }
 
 bool Ball::getLanded(void){
 	return landed;
-	}
+}
 
 unsigned char Ball::getSiteswap(){
 	return siteswap;
-	}
+}
