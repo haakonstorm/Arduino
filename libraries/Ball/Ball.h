@@ -4,9 +4,9 @@
 #include "WProgram.h"
 
 // First, define pins for LEDS:
-#define RED 6
+#define RED 10
 #define GREEN 9 
-#define BLUE 10
+#define BLUE 6
 
 // Then define analog inputs from accelerometer, RSSI and VCC/2
 

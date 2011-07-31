@@ -4,6 +4,7 @@
 
 Ball ball;
 
+
 void setup(){
   analogReference(EXTERNAL);
 
@@ -17,7 +18,7 @@ void setup(){
   Serial.begin(19200);
 
 
-  MsTimer2::set(15, readAD); // 5ms period, fSample = 200Hz. (too fast?)
+  MsTimer2::set(100, readAD); // 5ms period, fSample = 200Hz. (too fast?)
   MsTimer2::start();
 }
 

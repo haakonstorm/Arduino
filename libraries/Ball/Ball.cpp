@@ -16,11 +16,16 @@ void Ball::processAD (void){
   	static int sum;
   	static int count = 0;
 
-	x = abs(analogRead(X) - xN);
-  	y = abs(analogRead(Y) - yN);
-  	z = abs(analogRead(Z) - zN);
+	x = analogRead(X) - xN;
+  	y = analogRead(Y) - yN;
+  	z = analogRead(Z) - zN;
+  	
+  	x=abs(x);
+    y=abs(y);
+  	z=abs(z);
   
    	sum = x + y + z;
+	
 	count ++;	
    
     if(sum>255)
@@ -35,6 +40,14 @@ void Ball::processAD (void){
       digitalWrite(GREEN, 1);
       digitalWrite(RED, 0);     
     }
+
+Serial.print("X:");
+Serial.print(x);
+Serial.print(". Y:");
+Serial.print(y);
+Serial.print(". Z:");
+Serial.println(z);
+
 
 }
 
