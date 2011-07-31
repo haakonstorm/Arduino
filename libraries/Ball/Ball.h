@@ -51,11 +51,14 @@ class Ball{
 		void processAD(void);
 		void colorFade(void);
 		void setColor(char R, char G, char B);
-		void report(void);
-		void detectPattern (unsigned char siteswapValue);
-		void predictThrow(void);
-		bool getLanded();
-		unsigned char getSiteswap();
+		void radioBroadcast(void);
+		int getX();
+		int getY();
+		int getZ();
+		int getF();
+		unsigned int getHoldTime();
+		unsigned int getFlyTime();
+		bool getInAit();
 			
 	// PRIVATE
 	private:
@@ -69,21 +72,18 @@ class Ball{
 		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
 		
-		unsigned int _x, _y, _z;
+		int _x, _y, _z;
+		unsigned int _absX, _absY, _absZ; 
 		unsigned int _sum, _prevSum;
 		unsigned int _F;
 		bool _inAir;
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto
-		unsigned char _color;	// used by colorFade to set new color.
+
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
 		unsigned char _siteswap; 
 	
-		//semaphores:
-		bool _patternLock; // is the pattern locked? if so predict value at own landing, and check of the pattern is broken based on predictions.
-		bool _running; //means that the balls are in juggling use. 
-		bool _landed;
 
 #endif
 };

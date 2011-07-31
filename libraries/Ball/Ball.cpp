@@ -51,12 +51,12 @@ void Ball::processAD(void){
   	_y = analogRead(Y) - _yN;
   	_z = analogRead(Z) - _zN;
   	
-    _x = abs(_x);
-    _y = abs(_y);
-  	_z = abs(_z);
+    _absX = abs(_x);
+    _absY = abs(_y);
+  	_absZ = abs(_z);
   	
    	_prevSum = _sum;
-   	_sum = _x + _y + _z;
+   	_sum = _absX + _absY + _absZ;
 	_F = sqrt(_x*_x+_y*_y+_z*_z);
 	 	
 	count ++;	
@@ -75,30 +75,43 @@ void Ball::processAD(void){
     }
 }
 
-
-void Ball::detectPattern(unsigned char siteswapValue){
-}
-
 void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
 }
 
 void Ball::setColor(char R, char G, char B){
-	analogWrite(RED, R);
-	analogWrite(GREEN, G);
-	analogWrite(BLUE, B);
+	analogWrite(REDPIN, R);
+	analogWrite(GREENPIN, G);
+	analogWrite(BLUEPIN, B);
 }
 
-void Ball::report(){
+void Ball::radioBroadcast(){
 	// Serial.write(sumF);
 }
 
-void Ball::predictThrow(void){
+int Ball::getX(){
+	return _x;
 }
 
-bool Ball::getLanded(void){
-	return _landed;
+int Ball::getY(){
+	return _y;
 }
 
-unsigned char Ball::getSiteswap(){
-	return _siteswap;
+int Ball::getZ(){
+	return _z;
+}
+
+int Ball::getF(){
+	return _F;
+}
+
+unsigned int Ball::getHoldTime(){
+	return _holdTime;
+}
+	
+unsigned int Ball::getFlyTime(){
+	return _flyTime;
+}
+
+bool Ball::getInAit(){
+	return _inAir;
 }
