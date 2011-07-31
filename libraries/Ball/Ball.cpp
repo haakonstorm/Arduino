@@ -52,20 +52,12 @@ void Ball::processAD(void){
   	_y = analogRead(Y) - _yN;
   	_z = analogRead(Z) - _zN;
   	
-    _absX = abs(_x);
-    _absY = abs(_y);
-  	_absZ = abs(_z);
-  	
-   	_prevSum = _sum;
-   	_sum = _absX + _absY + _absZ;
+    _prevF = _F;
 	_F = sqrt(_x*_x+_y*_y+_z*_z);
 	 	
 	count ++;	
    
-    if (_sum > 255)
-      _sum = 255;
-
- 	if (_sum < _LIMIT && _prevSum < _LIMIT){
+ 	if (_F < _LIMIT && _prevF < _LIMIT){
     	_inAir = TRUE;
       	_holdTime = count;
       	count = 0;
@@ -105,10 +97,6 @@ int Ball::getF(){
 	return _F;
 }
 
-unsigned int Ball::getSum(){
-	return _sum;
-}
-
 unsigned int Ball::getHoldTime(){
 	return _holdTime;
 }
@@ -128,6 +116,6 @@ float Ball::getBatteryLevel(){
 	return temp;
 }
 
-unsigned char Ball::getId(){
+unsigned int Ball::getId(){
 	return _id;
 }
