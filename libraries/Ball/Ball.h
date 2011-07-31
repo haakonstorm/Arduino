@@ -1,3 +1,8 @@
+/*
+ * (c) 2011 Smarte baller med visuell forsterkning <smarteballer@ifi.uio.no>
+ * http://www.smarteballer.no/
+ */
+
 #ifndef Ball_h
 #define Ball_h
 
@@ -38,18 +43,26 @@
 #define ID 6
 
 class Ball{
+
+	// PUBLIC
 	public:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	
+>>>>>>> Further cleanup & some extras
 	Ball(void);
+	int x, y, z, sumF, F;
 	void processAD(void);
 	void colorFade(void);
-	int x;
-	int y;
-	int z;	
+	void setColor(char R, char G, char B);
+	void report(void);
 	
+	// PRIVATE
 	private:
 
     // Numerical constants used for battery level etc 
+<<<<<<< HEAD
 	static const float voltsPrBit =  0.00322265f;
 	static const float voltsPrBitDivided = 0.0064453f;
 =======
@@ -68,6 +81,13 @@ class Ball{
 
 		// Value for force-threshold fluing / resting
 		static const unsigned int LIMIT = 15;
+=======
+	static const float _voltsPrBit =  0.00322265f;
+	static const float _voltsPrBitDivided = 0.0064453f;
+
+	// Value for force-threshold fluing / resting
+	static const unsigned int _LIMIT = 15;
+>>>>>>> Further cleanup & some extras
 
 <<<<<<< HEAD
 	// Global variables. These are typical sensor readings and timer values gathered
@@ -93,6 +113,14 @@ class Ball{
 		bool landed;
 >>>>>>> added wrapper functions and variables
 	
+<<<<<<< HEAD
+=======
+	unsigned char _inAir;
+	unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
+	unsigned int _holdTime;	// ditto
+	unsigned char _color;	// used by colorFade to set new color.
+	unsigned int _xN, _yN, _zN;
+>>>>>>> Further cleanup & some extras
 };
 
 #endif

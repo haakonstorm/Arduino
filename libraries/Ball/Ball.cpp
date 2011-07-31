@@ -1,6 +1,7 @@
-#include <Ball.h>
 #include <WProgram.h>
 #include <EEPROM.h>
+#include <MsTimer2.h>
+#include <Ball.h>
 
 // Constructor for Ball
 Ball::Ball(){
@@ -33,10 +34,13 @@ Ball::Ball(){
   	pinMode(RED, OUTPUT);
   	pinMode(GREEN, OUTPUT);
   	pinMode(BLUE, OUTPUT);
-  	Serial.begin(19200);	
-	digitalWrite(BLUE,1);
+  	// Serial.begin(19200);	
 	
+	// Testing
+	// digitalWrite(BLUE,1);
+
 	// Reading normalized values.
+<<<<<<< HEAD
 =======
   	pinMode(BLUEPIN, OUTPUT);
   	pinMode(REDPIN, OUTPUT);
@@ -61,11 +65,27 @@ void Ball::processAD (void){
   	y = analogRead(Y) - yN;
   	z = analogRead(Z) - zN;
 <<<<<<< HEAD
+=======
+  	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
+  	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
+  	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
+}
+
+void Ball::processAD(void){
+  	// static int x,y,z;
+  	// static int sum;
+  	// static int count = 0;
+
+	x = analogRead(X) - _xN;
+  	y = analogRead(Y) - _yN;
+  	z = analogRead(Z) - _zN;
+>>>>>>> Further cleanup & some extras
   	
   	x = abs(x);
     y = abs(y);
   	z = abs(z);
   
+<<<<<<< HEAD
 =======
   	x=abs(x);
     y=abs(y);
@@ -110,7 +130,25 @@ void Ball::colorFade (void){ // fades from previos color to the new one in 400 m
 
 }
 void Ball::detectPattern(unsigned char siteswapValue){
+=======
+   	sumF = x + y + z;
+	F = sqrt(x*x+y*y+z*z);
+	
+	// count++;
+}
 
+void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
+}
+
+void Ball::setColor(char R, char G, char B){
+	analogWrite(RED, R);
+	analogWrite(GREEN, G);
+	analogWrite(BLUE, B);
+}
+>>>>>>> Further cleanup & some extras
+
+void Ball::report(){
+	// Serial.write(sumF);
 }
 void Ball::predictThrow(void){
 >>>>>>> added wrapper functions and variables
