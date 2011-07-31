@@ -7,19 +7,21 @@ Ball ball;
 void setup(){
   Serial.begin(19200);
   
-  MsTimer2::set(5, readAD); // 5ms period, 200Hz
+  //MsTimer2::set(5, processAD); // 5ms period, 200Hz
+  MsTimer2::set(100, broadcast); // 100ms period, 10Hz
   MsTimer2::start();
-  
- 
-  
+
   // Testing
   // ball.setColor(100,100,0);
 }
 
-
-void readAD(){
+void processAD(){
   ball.processAD();
+}
 
+
+void broadcast(){
+  Serial.println(ball.getY());
 }
 
 void loop(){
