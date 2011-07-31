@@ -56,12 +56,11 @@ class Ball{
 		int getY();
 		int getZ();
 		int getF();
-		unsigned int getSum();
 		unsigned int getHoldTime();
 		unsigned int getFlyTime();
 		bool getInAir();
 		float getBatteryLevel();
-		unsigned char getId();		
+		unsigned int getId();		
 	// PRIVATE
 	private:
 	
@@ -77,7 +76,7 @@ class Ball{
 		int _x, _y, _z;
 		unsigned int _absX, _absY, _absZ; 
 		unsigned int _sum, _prevSum;
-		unsigned int _F;
+		unsigned int _F, _prevF;
 		bool _inAir;
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto

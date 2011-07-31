@@ -24,7 +24,6 @@ void broadcast(){
   ball.processAD();
   
   Serial.print ("Sum: ");
-  Serial.print (ball.getSum());
   Serial.print (". F: ");
   Serial.println(ball.getF());
   
