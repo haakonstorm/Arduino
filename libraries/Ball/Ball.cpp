@@ -29,30 +29,15 @@ Ball::Ball(){
 	// 0x05	1024	30,637254902
 	TCCR1B = TCCR1B & 0b11111000 | 0x02;
 
-<<<<<<< HEAD
-	// Common settings.
-  	pinMode(RED, OUTPUT);
-  	pinMode(GREEN, OUTPUT);
-  	pinMode(BLUE, OUTPUT);
-  	// Serial.begin(19200);	
-	
-	// Testing
-	// digitalWrite(BLUE,1);
 
-	// Reading normalized values.
-<<<<<<< HEAD
-=======
   	pinMode(BLUEPIN, OUTPUT);
   	pinMode(REDPIN, OUTPUT);
   	pinMode(GREENPIN, OUTPUT);
-  	Serial.begin(19200);	
-	digitalWrite(BLUEPIN,1);     
       
->>>>>>> added wrapper functions and variables
-  	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
-  	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
-  	zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
-}
+  	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
+  	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
+  	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
+  	}
 
 
 
@@ -65,10 +50,9 @@ void Ball::processAD (void){
   	y = analogRead(Y) - yN;
   	z = analogRead(Z) - zN;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
-  	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
-  	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
-  	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
+  	
 }
 
 void Ball::processAD(void){
@@ -80,19 +64,24 @@ void Ball::processAD(void){
   	y = analogRead(Y) - _yN;
   	z = analogRead(Z) - _zN;
 >>>>>>> Further cleanup & some extras
+=======
+>>>>>>> removed some conflict, probably made some new ones
   	
   	x = abs(x);
     y = abs(y);
   	z = abs(z);
+<<<<<<< HEAD
   
 <<<<<<< HEAD
 =======
+=======
+  	
+>>>>>>> removed some conflict, probably made some new ones
   	x=abs(x);
     y=abs(y);
   	z=abs(z);
   	
   	prevSum = sum;
->>>>>>> added wrapper functions and variables
    	sum = x + y + z;
 	
 	count ++;	
@@ -100,20 +89,8 @@ void Ball::processAD(void){
     if(sum > 255)
       sum = 255;
 
-<<<<<<< HEAD
-    if(sum < LIMIT){
-      digitalWrite(RED, 1);
-      digitalWrite(GREEN, 0);
-    }
-    
-    else{
-      digitalWrite(GREEN, 1);
-      digitalWrite(RED, 0);     
-    }
-}
-
-void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
-=======
+  
+void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
     if(sum < LIMIT && prevSum < LIMIT){
     	inAir = TRUE;
       	digitalWrite(REDPIN, 1);     
@@ -151,7 +128,6 @@ void Ball::report(){
 	// Serial.write(sumF);
 }
 void Ball::predictThrow(void){
->>>>>>> added wrapper functions and variables
 
 }
 

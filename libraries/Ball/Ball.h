@@ -73,11 +73,12 @@ class Ball{
 		void predictThrow(void);
 		bool getLanded();
 		unsigned char getSiteswap();
+		
 	private:
 	    // Numerical constants used for battery level etc 
 		static const float voltsPrBit =  0.00322265f;
 		static const float voltsPrBitDivided = 0.0064453f;
->>>>>>> added wrapper functions and variables
+
 
 		// Value for force-threshold fluing / resting
 		static const unsigned int LIMIT = 15;
@@ -89,11 +90,7 @@ class Ball{
 	static const unsigned int _LIMIT = 15;
 >>>>>>> Further cleanup & some extras
 
-<<<<<<< HEAD
-	// Global variables. These are typical sensor readings and timer values gathered
-	// in the interrupt service routine and utilized elsewhere.
-=======
-		// global variables. These are typical sensor readings and timer values gathered
+ 		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
 	
 		bool inAir;
@@ -111,7 +108,7 @@ class Ball{
 		bool patternLock; // is the pattern locked? if so predict value at own landing, and check of the pattern is broken based on predictions.
 		bool running; //means that the balls are in juggling use. 
 		bool landed;
->>>>>>> added wrapper functions and variables
+
 	
 <<<<<<< HEAD
 =======
