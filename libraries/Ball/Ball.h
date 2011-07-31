@@ -58,7 +58,8 @@ class Ball{
 		int getF();
 		unsigned int getHoldTime();
 		unsigned int getFlyTime();
-		bool getInAit();
+		bool getInAir();
+		float getBatteryLevel();
 			
 	// PRIVATE
 	private:

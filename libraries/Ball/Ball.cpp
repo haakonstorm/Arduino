@@ -112,6 +112,13 @@ unsigned int Ball::getFlyTime(){
 	return _flyTime;
 }
 
-bool Ball::getInAit(){
+bool Ball::getInAir(){
 	return _inAir;
+}
+
+float Ball::getBatteryLevel(){
+	float temp;
+	temp = analogRead(VCC);
+	temp = temp * _voltsPrBitDivided;
+	return temp;
 }
