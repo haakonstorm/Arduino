@@ -7,7 +7,6 @@
 
 Ball::Ball(){ //Constructor.
 	
-
 	analogReference(EXTERNAL);
 
   	//øk frekvense på pwm: se http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
@@ -19,23 +18,20 @@ Ball::Ball(){ //Constructor.
   	pinMode(GREEN, OUTPUT);
   	Serial.begin(19200);
 
-  	//xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
-  	//yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
-  	//zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
-  
- 	
-
+  	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
+  	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
+  	zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
 }
 
-void Ball::readAD (void){
+void Ball::processAD (void){
   	static int x,y,z;
   	static int sum;
   	static int count = 0;
 
-    //x = abs(analogRead(X) - xN);
-    //y = abs(analogRead(Y) - yN);
-    //z = abs(analogRead(Z) - zN);
-
+	x = abs(analogRead(X) - xN);
+  	y = abs(analogRead(Y) - yN);
+  	z = abs(analogRead(Z) - zN);
+  
    	sum = x + y + z;
 	count ++;	
    
