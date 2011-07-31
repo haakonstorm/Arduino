@@ -5,6 +5,17 @@
 
 
 Ball::Ball(){ //Constructor.
+  analogReference(EXTERNAL);
+
+  //øk frekvense på pwm: se http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
+  TCCR0B = TCCR0B & 0b11111000 | 0x02;
+  TCCR1B = TCCR1B & 0b11111000 | 0x02;
+
+  pinMode(BLUE, OUTPUT);
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  Serial.begin(19200);
+
 	
   	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
