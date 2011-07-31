@@ -27,20 +27,23 @@
 
 class Ball{
 	public:
+	Ball(void);
 	void readAD(void);
+	void colorFade(void);
+	
 	
 	
 	private:
     // Numerical constants used for battery level etc 
-	const float voltsPrBit = 0.00322265f;
-	const float voltsPrBitDivided = 0.0064453f;
+	//const float voltsPrBit = 0.00322265f;
+	//const float voltsPrBitDivided = 0.0064453f;
 
 	// Value for force-threshold fluing / resting
-	const unsigned int LIMIT = 15;
+	//const unsigned int LIMIT = 15;
 
 	// global variables. These are typical sensor readings and timer values gathered
 	// in the interrupt service routine and utilized elsewhere
-	unsigned int xN, yN, zN;
+	//unsigned int xN, yN, zN;
 
 	unsigned char inAir;
 	unsigned int flyTime; //in samples of 5ms ea.
@@ -48,10 +51,7 @@ class Ball{
 	unsigned char color; //used by colorFade to set new color.
 
 	unsigned int xN, yN, zN;
-
-
-
-}
+};
 
 
 
