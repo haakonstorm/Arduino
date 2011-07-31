@@ -85,6 +85,6 @@ class Ball{
 		//Siteswap value for the ball. Will increase with each incomming value.
 		unsigned char _siteswap; 
 	
+};
 
 #endif
-};
