@@ -56,11 +56,12 @@ class Ball{
 		int getY();
 		int getZ();
 		int getF();
+		unsigned int getSum();
 		unsigned int getHoldTime();
 		unsigned int getFlyTime();
 		bool getInAir();
 		float getBatteryLevel();
-			
+		unsigned char getId();		
 	// PRIVATE
 	private:
 	
@@ -83,7 +84,8 @@ class Ball{
 
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
-		unsigned char _siteswap; 
+		unsigned char _id;
+
 	
 };
 

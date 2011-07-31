@@ -41,6 +41,7 @@ Ball::Ball(){
   	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
+  	_id = EEPROM.read(ID); 
 }
 
 void Ball::processAD(void){
@@ -104,6 +105,10 @@ int Ball::getF(){
 	return _F;
 }
 
+unsigned int Ball::getSum(){
+	return _sum;
+}
+
 unsigned int Ball::getHoldTime(){
 	return _holdTime;
 }
@@ -121,4 +126,8 @@ float Ball::getBatteryLevel(){
 	temp = analogRead(VCC);
 	temp = temp * _voltsPrBitDivided;
 	return temp;
+}
+
+unsigned char Ball::getId(){
+	return _id;
 }
