@@ -16,12 +16,18 @@ void setup(){
 }
 
 void processAD(){
-  ball.processAD();
+  
 }
 
 
 void broadcast(){
-  Serial.println(ball.getY());
+  ball.processAD();
+  
+  Serial.print ("Sum: ");
+  Serial.print (ball.getSum());
+  Serial.print (". F: ");
+  Serial.println(ball.getF());
+  
 }
 
 void loop(){

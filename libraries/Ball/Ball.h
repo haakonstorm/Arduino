@@ -84,7 +84,7 @@ class Ball{
 
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
-		unsigned char _id;
+		unsigned int _id;
 
 	
 };
