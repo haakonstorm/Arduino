@@ -28,6 +28,7 @@ Ball::Ball(){
 	// 0x05	1024	30,637254902
 	TCCR1B = TCCR1B & 0b11111000 | 0x02;
 
+<<<<<<< HEAD
 	// Common settings.
   	pinMode(RED, OUTPUT);
   	pinMode(GREEN, OUTPUT);
@@ -36,24 +37,42 @@ Ball::Ball(){
 	digitalWrite(BLUE,1);
 	
 	// Reading normalized values.
+=======
+  	pinMode(BLUEPIN, OUTPUT);
+  	pinMode(REDPIN, OUTPUT);
+  	pinMode(GREENPIN, OUTPUT);
+  	Serial.begin(19200);	
+	digitalWrite(BLUEPIN,1);     
+      
+>>>>>>> added wrapper functions and variables
   	xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
 }
 
+
+
 void Ball::processAD (void){
   	static int x,y,z;
-  	static int sum;
+  	static int sum, prevSum;
   	static int count = 0;
 
 	x = analogRead(X) - xN;
   	y = analogRead(Y) - yN;
   	z = analogRead(Z) - zN;
+<<<<<<< HEAD
   	
   	x = abs(x);
     y = abs(y);
   	z = abs(z);
   
+=======
+  	x=abs(x);
+    y=abs(y);
+  	z=abs(z);
+  	
+  	prevSum = sum;
+>>>>>>> added wrapper functions and variables
    	sum = x + y + z;
 	
 	count ++;	
@@ -61,6 +80,7 @@ void Ball::processAD (void){
     if(sum > 255)
       sum = 255;
 
+<<<<<<< HEAD
     if(sum < LIMIT){
       digitalWrite(RED, 1);
       digitalWrite(GREEN, 0);
@@ -73,5 +93,34 @@ void Ball::processAD (void){
 }
 
 void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) calles from isr.
+=======
+    if(sum < LIMIT && prevSum < LIMIT){
+    	inAir = TRUE;
+      	digitalWrite(REDPIN, 1);     
+      	digitalWrite(GREENPIN, 0);     
+    }else{
+    	inAir = FALSE;
+      	digitalWrite(GREENPIN, 1);
+      	digitalWrite(REDPIN, 0);     
+    }
+}
+
+void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
+
 
 }
+void Ball::detectPattern(unsigned char siteswapValue){
+
+}
+void Ball::predictThrow(void){
+>>>>>>> added wrapper functions and variables
+
+}
+
+bool Ball::getLanded(void){
+	return landed;
+	}
+
+unsigned char Ball::getSiteswap(){
+	return siteswap;
+	}
