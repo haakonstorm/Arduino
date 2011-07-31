@@ -22,7 +22,7 @@ Ball::Ball(){
 	// 0x02	   8	7812,5
 	// 0x03	  64	976,5625 (default)
 	// 0x04	 256	244,140625
-	// 0x05	1024	61,03515625
+	// 0x05	1024	61,03515625 
   	TCCR0B = TCCR0B & 0b11111000 | 0x02;
   	
   	// Pins 9 and 10  are controlled by 16-bit Timer/Counter1 in phase correct PWM mode.
@@ -44,42 +44,38 @@ Ball::Ball(){
 }
 
 void Ball::processAD(void){
-  	static int x,y,z;
-	static int sum;
+  	
   	static int count = 0;
 
-	x = analogRead(X) - _xN;
-  	y = analogRead(Y) - _yN;
-  	z = analogRead(Z) - _zN;
+	_x = analogRead(X) - _xN;
+  	_y = analogRead(Y) - _yN;
+  	_z = analogRead(Z) - _zN;
   	
-    x = abs(x);
-    y = abs(y);
-  	z = abs(z);
+    _x = abs(_x);
+    _y = abs(_y);
+  	_z = abs(_z);
   	
-   	prevSum = sum;
-   	sum = x + y + z;
-	F = sqrt(x*x+y*y+z*z);
+   	_prevSum = _sum;
+   	_sum = _x + _y + _z;
+	_F = sqrt(_x*_x+_y*_y+_z*_z);
 	 	
 	count ++;	
    
-    if (sum > 255)
-      sum = 255;
+    if (_sum > 255)
+      _sum = 255;
 
-  
-void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
-    if (sum < LIMIT && prevSum < LIMIT){
-    	inAir = TRUE;
+
+    if (_sum < _LIMIT && _prevSum < _LIMIT){
+    	_inAir = TRUE;
       	digitalWrite(REDPIN, 1);     
       	digitalWrite(GREENPIN, 0);     
     } else {
-    	inAir = FALSE;
+    	_inAir = FALSE;
       	digitalWrite(GREENPIN, 1);
       	digitalWrite(REDPIN, 0);     
     }
 }
 
-void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
-}
 
 void Ball::detectPattern(unsigned char siteswapValue){
 }
@@ -101,9 +97,9 @@ void Ball::predictThrow(void){
 }
 
 bool Ball::getLanded(void){
-	return landed;
+	return _landed;
 }
 
 unsigned char Ball::getSiteswap(){
-	return siteswap;
+	return _siteswap;
 }

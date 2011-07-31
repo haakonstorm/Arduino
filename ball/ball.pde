@@ -18,23 +18,11 @@ void setup(){
 }
 
 void reportWrapper(){
-  ball.processAD();
-  Serial.println(ball.sumF);
 }
 
 void readAD(){
   ball.processAD();
 
-  if (ball.sumF > 255)
-    ball.sumF = 255;
-
-  if (ball.sumF < 15){
-    ball.setColor(255,0,0);
-    Serial.write('A');
-  } 
-  else {
-    ball.setColor(0,255,0);
-  }
 }
 
 void loop(){

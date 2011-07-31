@@ -46,9 +46,8 @@ class Ball{
 
 	// PUBLIC
 	public:
-
+		
 		Ball(void);
-		int x, y, z, sumF, F;
 		void processAD(void);
 		void colorFade(void);
 		void setColor(char R, char G, char B);
@@ -69,8 +68,10 @@ class Ball{
 
 		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
-
-
+		
+		unsigned int _x, _y, _z;
+		unsigned int _sum, _prevSum;
+		unsigned int _F;
 		bool _inAir;
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto
@@ -85,3 +86,4 @@ class Ball{
 		bool _landed;
 
 #endif
+};
