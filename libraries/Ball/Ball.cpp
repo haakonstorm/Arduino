@@ -62,8 +62,8 @@ void Ball::processAD (void){
       sum = 255;
 
     if(sum < LIMIT){
-      digitalWrite(RED, 1);     
-      digitalWrite(GREEN, 0);     
+      digitalWrite(RED, 1);
+      digitalWrite(GREEN, 0);
     }
     
     else{

@@ -9,7 +9,6 @@
 #define BLUE 6
 
 // Then, define analog inputs from accelerometer, RSSI and VCC/2:
-
 #define X A0
 #define Y A1
 #define Z A2
