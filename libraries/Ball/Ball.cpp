@@ -10,30 +10,6 @@
 
 // Constructor for Ball
 Ball::Ball(){
-	
-	// The voltage applied to the AREF pin (0 to 5V only) is used as the reference.
-	analogReference(EXTERNAL);
-
-	// Adjust Arduino PWM frequencies. See http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
-	// Pins 5 and 6  are controlled by 8-bit Timer/Counter0 in fast PWM mode.
-	// This affects millis() and delay().
-	// Frequency = 16000000 / (256 * N) = 62500 / N
-	// 0x01	   1	62500
-	// 0x02	   8	7812,5
-	// 0x03	  64	976,5625 (default)
-	// 0x04	 256	244,140625
-	// 0x05	1024	61,03515625 
-  	TCCR0B = TCCR0B & 0b11111000 | 0x02;
-  	
-  	// Pins 9 and 10  are controlled by 16-bit Timer/Counter1 in phase correct PWM mode.
-  	// Frequency = 16000000 / (510 * N) = 31372,549019608 / N
-	// 0x01	   1	31372,549019608
-	// 0x02	   8	3921,568627451
-	// 0x03	  64	490,196078431 (default)
-	// 0x04	 256	122,549019608
-	// 0x05	1024	30,637254902
-	TCCR1B = TCCR1B & 0b11111000 | 0x02;
-
   	pinMode(BLUEPIN, OUTPUT);
   	pinMode(REDPIN, OUTPUT);
   	pinMode(GREENPIN, OUTPUT);
@@ -69,21 +45,70 @@ void Ball::processAD(void){
 	 	
 	count ++;	
    
- 	if (_F < _LIMIT && _prevF < _LIMIT && !_inAir){
+ 	if (_sum < _LIMIT && _prevSum < _LIMIT && !_inAir){
     	_inAir = TRUE;
       	_holdTime = count;
       	count = 0;
-    } else if (_F > _LIMIT && _prevF > _LIMIT && _inAir){
+    } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir){
     	_inAir = FALSE;
     	_flyTime = count;
     	count = 0;
     }
 }
 
-void Ball::colorFade (void){ // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
+// fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
+void Ball::fadeColor (bool r, bool g, bool b){ 
+	static bool complete = true;
+	static int strength  = 200;
+	static bool decrease = true;
+	static bool cR = true, cG = false, cB = false;
+	if (r == cR && g == cG && b ==cB){ //the ball is illuminated with the correct color
+		return;
+	}else{
+		if(decrease){
+			strength = strength - 5;
+			if(strength<0){
+				decrease = false;
+				return;
+				}
+			if(cR)
+				analogWrite(REDPIN, strength);
+			if(cG)
+				analogWrite(GREENPIN, strength);
+			if(cB)
+				analogWrite(BLUEPIN, strength);
+		}else{
+			strength = strength + 5;
+			if(r)
+				analogWrite(REDPIN, strength);
+			if(g)
+				analogWrite(GREENPIN, strength);
+			if(b)
+				analogWrite(BLUEPIN, strength);
+			if(strength>=200){
+				decrease = true;
+				cR = r;
+				cG = g;
+				cB = b;	
+			}
+		}
+	}
 }
 
-void Ball::setColor(char R, char G, char B){
+void Ball::setFadeColor(unsigned char color){
+	if(color==1)
+		fadeColor(FALSE,TRUE,TRUE);
+	if(color==2)
+		fadeColor(FALSE,FALSE,TRUE);
+	if(color==3)
+		fadeColor(FALSE, TRUE, FALSE);
+	if(color==4)
+		fadeColor(TRUE, FALSE, FALSE);
+	if(color==5)
+		fadeColor(TRUE,FALSE,TRUE);
+}
+
+void Ball::setColor(unsigned char R, unsigned char G, unsigned char B){
 	analogWrite(REDPIN, R);
 	analogWrite(GREENPIN, G);
 	analogWrite(BLUEPIN, B);
