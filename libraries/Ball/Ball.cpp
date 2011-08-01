@@ -46,7 +46,7 @@ Ball::Ball(){
 
 void Ball::processAD(void){
   	
-  	static int count = 0;
+  	static unsigned int count;
   	static long longX, longY, longZ;
 
 	_x = analogRead(X) - _xN;
@@ -60,15 +60,20 @@ void Ball::processAD(void){
     _prevF = _F;
 	_F = (int) sqrt (longX * longX + longY * longY + longZ * longZ);
 	
-	//_F = sqrt(_x*_x+_y*_y+_z*_z);
+	_absX =abs(_x);
+	_absY =abs(_y);
+	_absZ =abs(_z);
+	
+	_prevSum = _sum;
+	_sum = _absX + _absY + _absZ;
 	 	
 	count ++;	
    
- 	if (_F < _LIMIT && _prevF < _LIMIT){
+ 	if (_F < _LIMIT && _prevF < _LIMIT && !_inAir){
     	_inAir = TRUE;
       	_holdTime = count;
       	count = 0;
-    } else {
+    } else if (_F > _LIMIT && _prevF > _LIMIT && _inAir){
     	_inAir = FALSE;
     	_flyTime = count;
     	count = 0;
@@ -102,6 +107,10 @@ int Ball::getZ(){
 
 int Ball::getF(){
 	return _F;
+}
+
+int Ball::getSum(){
+	return _sum;
 }
 
 unsigned int Ball::getHoldTime(){

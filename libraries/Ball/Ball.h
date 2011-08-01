@@ -56,6 +56,7 @@ class Ball{
 		int getY();
 		int getZ();
 		int getF();
+		int getSum();
 		unsigned int getHoldTime();
 		unsigned int getFlyTime();
 		bool getInAir();
