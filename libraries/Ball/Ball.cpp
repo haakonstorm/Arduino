@@ -53,6 +53,7 @@ void Ball::processAD(void){
     	_inAir = FALSE;
     	_flyTime = count;
     	count = 0;
+    	landed = TRUE;
     }
 }
 
@@ -148,6 +149,14 @@ unsigned int Ball::getFlyTime(){
 
 bool Ball::getInAir(){
 	return _inAir;
+}
+
+bool Ball::getLanded(){
+	return landed;
+}
+
+void Ball::resetLanded(void){
+	landed = FALSE;
 }
 
 float Ball::getBatteryLevel(){

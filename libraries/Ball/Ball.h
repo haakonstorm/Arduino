@@ -63,6 +63,8 @@ class Ball{
 		bool getInAir();
 		float getBatteryLevel();
 		unsigned int getId();		
+		bool getLanded();
+		void resetLanded(void);
 	// PRIVATE
 	private:
 	
@@ -74,7 +76,7 @@ class Ball{
 
 		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
-		
+		bool landed;
 		int _x, _y, _z;
 		unsigned int _absX, _absY, _absZ; 
 		unsigned int _sum, _prevSum;
