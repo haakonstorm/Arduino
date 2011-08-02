@@ -59,10 +59,9 @@ void Ball::processAD(void){
 
 // fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
 void Ball::fadeColor (bool r, bool g, bool b){ 
-	static bool complete = true;
 	static int strength  = 200;
-	static bool decrease = true;
-	static bool cR = true, cG = false, cB = false;
+	static bool decrease = TRUE;
+	static bool cR = TRUE, cG = TRUE, cB = FALSE;
 	if (r == cR && g == cG && b ==cB){ //the ball is illuminated with the correct color
 		return;
 	}else{

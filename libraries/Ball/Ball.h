@@ -25,6 +25,9 @@
 #define CYAN 1
 #define PURPLE 5
 #define BLUE 2 //active 2. 
+#define ORANGE 6
+#define WHITE 7
+
 
 // Then, define analog inputs from accelerometer, RSSI and VCC/2:
 #define X A0
