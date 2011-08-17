@@ -87,7 +87,7 @@ void Ball::fadeColor (bool r, bool g, bool b){
 			if(b)
 				analogWrite(BLUEPIN, strength);
 			if(strength>=240){
-				strength =240
+				strength = 240;
 				decrease = true;
 				cR = r;
 				cG = g;
