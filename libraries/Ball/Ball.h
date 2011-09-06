@@ -68,6 +68,7 @@ class Ball{
 		unsigned int getId();		
 		bool getLanded();
 		void resetLanded(void);
+		void delayedSetColor(unsigned char R, unsigned char G, unsigned char B);
 	// PRIVATE
 	private:
 	
@@ -87,6 +88,7 @@ class Ball{
 		bool _inAir;
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto
+		unsigned int _halfHoldTime; //used for changing color between two throws.
 
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.

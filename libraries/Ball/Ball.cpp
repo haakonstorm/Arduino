@@ -48,6 +48,7 @@ void Ball::processAD(void){
  	if (_sum < _LIMIT && _prevSum < _LIMIT && !_inAir){
     	_inAir = TRUE;
       	_holdTime = count;
+      	_halfHoldTime = (int) count /2;
       	count = 0;
     } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir){
     	_inAir = FALSE;
@@ -57,16 +58,16 @@ void Ball::processAD(void){
     }
 }
 
-// fades from previos color to the new one in 400 ms. (i.e. 80 samples) called from isr.
+// fades from previos color to the new one in 200 ms. (i.e. 40 samples) called from isr.
 void Ball::fadeColor (bool r, bool g, bool b){ 
-	static int strength  = 240;
+	static int strength  = 255;
 	static bool decrease = TRUE;
-	static bool cR = TRUE, cG = TRUE, cB = FALSE;
+	static bool cR = TRUE, cG = TRUE, cB = TRUE;
 	if (r == cR && g == cG && b ==cB){ //the ball is illuminated with the correct color
 		return;
 	}else{
 		if(decrease){
-			strength = strength - 20;
+			strength = strength - 13;
 			if(strength<=0){
 				strength = 0;
 				decrease = false;
@@ -79,15 +80,15 @@ void Ball::fadeColor (bool r, bool g, bool b){
 			if(cB)
 				analogWrite(BLUEPIN, strength);
 		}else{
-			strength = strength + 50;
+			strength = strength + 13;
 			if(r)
 				analogWrite(REDPIN, strength);
 			if(g)
 				analogWrite(GREENPIN, strength);
 			if(b)
 				analogWrite(BLUEPIN, strength);
-			if(strength>=240){
-				strength = 240;
+			if(strength>=255){
+				strength = 255;
 				decrease = true;
 				cR = r;
 				cG = g;
@@ -108,12 +109,34 @@ void Ball::setFadeColor(unsigned char color){
 		fadeColor(TRUE, FALSE, FALSE);
 	if(color==5)
 		fadeColor(TRUE,FALSE,TRUE);
+	if(color==6)
+		fadeColor(TRUE,TRUE,FALSE);
+	if(color==7)
+		fadeColor(TRUE,TRUE,TRUE);
 }
 
 void Ball::setColor(unsigned char R, unsigned char G, unsigned char B){
 	analogWrite(REDPIN, R);
 	analogWrite(GREENPIN, G);
 	analogWrite(BLUEPIN, B);
+}
+
+
+void Ball::delayedSetColor(unsigned char R, unsigned char G, unsigned char B){
+	static char cR=0,cG=0,cB=0;
+	static int stepCounter = 0;
+	if (R == cR && G == cG && B ==cB){ 	// the color is correct.
+		return;
+	}else{
+		stepCounter ++;
+		if(stepCounter >= _halfHoldTime){
+			cR=R;
+			cG=G;
+			cB=B;
+			stepCounter = 0;
+			setColor(R,G,B);
+		}
+	}	
 }
 
 void Ball::radioBroadcast(){
