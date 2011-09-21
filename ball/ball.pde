@@ -17,20 +17,18 @@ void setup(){
 }
 
 int holdTime,flyTime;
+
 void processAD(){
     ball.processAD();
     if(ball.getLanded()){
-     ball.resetLanded();
-    holdTime = ball.getHoldTime() * 5; 
-    flyTime = ball.getFlyTime() * 5; 
+      ball.resetLanded();
+    holdTime = ball.getHoldTime(); 
+    flyTime = ball.getFlyTime() ; 
     Serial.print("HoldTime: ");
     Serial.print(holdTime);
     Serial.print(". flyTime: ");
     Serial.println(flyTime);
-    
     }
-
-
 }
 
 

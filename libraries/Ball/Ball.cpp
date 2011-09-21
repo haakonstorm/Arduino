@@ -121,6 +121,19 @@ void Ball::setColor(unsigned char R, unsigned char G, unsigned char B){
 	analogWrite(BLUEPIN, B);
 }
 
+void Ball::setReleaseColor(unsigned char R, unsigned char G, unsigned char B){
+	static char cR=0,cG=0,cB=0;
+	if (R == cR && G == cG && B ==cB){ 	// the color is correct.
+		return;
+	}else{
+		if(_inAir){
+			cR=R;
+			cG=G;
+			cB=B;
+			setColor(R,G,B);
+		}
+	}	
+}
 
 void Ball::delayedSetColor(unsigned char R, unsigned char G, unsigned char B){
 	static char cR=0,cG=0,cB=0;
@@ -129,7 +142,7 @@ void Ball::delayedSetColor(unsigned char R, unsigned char G, unsigned char B){
 		return;
 	}else{
 		stepCounter ++;
-		if(stepCounter >= _halfHoldTime){
+		if(stepCounter >= _halfHoldTime + 25){
 			cR=R;
 			cG=G;
 			cB=B;

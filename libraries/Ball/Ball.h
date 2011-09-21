@@ -54,6 +54,7 @@ class Ball{
 		void processAD(void);
 		void fadeColor(bool r, bool g, bool b);
 		void setFadeColor(unsigned char color);
+		void setReleaseColor(unsigned char R, unsigned char G, unsigned char B);
 		void setColor(unsigned char R, unsigned char G, unsigned char B);
 		void radioBroadcast(void);
 		int getX();

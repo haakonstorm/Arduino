@@ -22,7 +22,7 @@ void setup(){
 
 void processAD(){
     ball.processAD();
-    ball.delayedSetColor(r,g,b);
+    ball.setReleaseColor(r,g,b);
   
 }
 

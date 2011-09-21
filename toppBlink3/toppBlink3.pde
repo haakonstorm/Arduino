@@ -24,7 +24,7 @@ void processAD(){
     ball.processAD();
    if(ball.getInAir()){
       flyTeller++;
-      if((flyTeller-20) == blinkNaa){
+      if((flyTeller-31) == blinkNaa){
         ball.setColor(0,0,30);
       }else if((flyTeller-15) == blinkNaa){
         ball.setColor(0,0,60);
