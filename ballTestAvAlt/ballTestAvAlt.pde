@@ -6,43 +6,69 @@ Ball ball;
 
 void setup(){
   Serial.begin(19200);
-  MsTimer2::set(5, processAD);
-  MsTimer2::start();
+  //MsTimer2::set(5, processAD);
+  //MsTimer2::start();
   ball.setColor(0,0,0);
   showInfo();
-  delay(1000);
+  //delay(1000);
 }
 
-
 void processAD() {
-  static int samples = 0;
-  static int force;
-  ball.processAD();
-  if(samples >= 100) {
-    samples = 0;
-    force = ball.getF();
-    Serial.println(force);
-  }
-  samples++;
+  //static int samples = 0;
+
+  //ball.processAD();
+
+  //samples++;
 }
 
 void loop(){
   static byte firstByte;
+  static boolean measure = 0;
   static int r = 0;
   static int g = 0;
   static int b = 0;
-  
+  static int force, x, y, z;
+
   if(Serial.available()){
     firstByte = Serial.read();
     switch (firstByte) {
-      case 'R': r = 255; break;
-      case 'G': g = 255; break;
-      case 'B': b = 255; break;
-      case 'r': r = 0; break;
-      case 'g': g = 0; break;
-      case 'b': b = 0; break;
+    case 'R': 
+      r = 255; 
+      break;
+    case 'G': 
+      g = 255; 
+      break;
+    case 'B': 
+      b = 255; 
+      break;
+    case 'r': 
+      r = 0; 
+      break;
+    case 'g': 
+      g = 0; 
+      break;
+    case 'b': 
+      b = 0; 
+      break;
+    case 'M': 
+      measure = 1; 
+      break;
+    case 'm': 
+      measure = 0; 
+      break;
     }
     ball.setColor(r, g, b);
+  }
+  if(measure){
+    x = analogRead(X);
+    y = analogRead(Y);
+    z = analogRead(Z);
+    Serial.print ("X: ");
+    Serial.print (x);
+    Serial.print (". Y: ");
+    Serial.print (y);
+    Serial.print (". Z: ");
+    Serial.println (z);
   }
 }
 
@@ -60,6 +86,7 @@ void showInfo(){
   Serial.println((EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow));
   Serial.print("z-verdi ved fritt fall: ");
   Serial.println((EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow));
+  Serial.println("--------------------------------------");  
 }
 
 void readEEPROM(){
@@ -74,6 +101,8 @@ void readEEPROM(){
     Serial.println();
   }
 }
+
+
 
 
 
