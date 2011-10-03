@@ -32,12 +32,20 @@ void setup(){
 void processAD() {
   static int samples = 0;
   static int x, xP, y, yP, z, zP, force;
+  static byte rB, gB, bB;
   ball.processAD();
 
-  if(Serial.available() > 0 ) {
+  if(Serial.available() > 0) {
     radioInput = Serial.read();
-    Serial.flush();
     switch (radioInput) {
+    case 'C':
+      if(Serial.available() >= 3) {
+        rB = Serial.read();
+        gB = Serial.read();
+        bB = Serial.read();
+        ball.setColor(rB, gB, bB);
+      }
+      break;
     case '0': 
       printMenu();
       break;
@@ -90,11 +98,12 @@ void processAD() {
         Serial.println("\nStopper programmet som bytter farge naar ballen er i luften.");
         Serial.println("--------------------------------------");
       }
-      break; 
+      break;
     case 'E': 
       writeEEPROM();
       break;
     }
+    Serial.flush();
   }
 
   if(showXYZ & (samples%25==0)){
@@ -270,6 +279,7 @@ void writeEEPROM(){
 
   showInfo(); 
 }
+
 
 
 
