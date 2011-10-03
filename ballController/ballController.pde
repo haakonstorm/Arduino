@@ -29,7 +29,7 @@ const byte table[] = {
 
 void setup(){
   Serial.begin(19200);
-  MsTimer2::set(300, sendColor);
+  MsTimer2::set(30, sendColor);
   MsTimer2::start();
 }
 
