@@ -67,7 +67,9 @@ class Ball{
 		float getBatteryLevel();
 		unsigned int getId();		
 		bool getLanded();
-		void resetLanded(void);
+		void resetLanded();
+		bool getThrown();
+		void resetThrown();
 		void delayedSetColor(unsigned char R, unsigned char G, unsigned char B);
 		static const byte expcolor [256];
 
@@ -87,6 +89,7 @@ class Ball{
 		unsigned int _sum, _prevSum;
 		unsigned int _F, _prevF;
 		bool _inAir;
+		bool _thrown;
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto
 		unsigned int _halfHoldTime; //used for changing color between two throws.

@@ -4,32 +4,87 @@
 
 Ball ball;
 static int sampleCounter = 0;
-static int beatCounter = 1;
-static int prevBeats = 1;
-
+static unsigned char prevSiteSwaps = 1;
+static int colorCounter = 0;
+unsigned char historyP[10];
+unsigned char historyPP[10][10];
+static unsigned char currentSiteSwap = 1;
+static unsigned char previousSiteSwap = 0;
+static unsigned char previousPreviousSiteSwap = 0;
+static unsigned char predictedSiteSwap = 0;
+static unsigned char predictionConfidence = 0;
 
 void setup(){
-  Serial.begin(19200);  
+  Serial.begin(19200);
   MsTimer2::set(5, processAD);
   MsTimer2::start();
-  ball.setColor(2,2,2);
+  setColorSS(0);
 }
 
 void processAD(){
   ball.processAD();
   sampleCounter++;
+  //  if((sampleCounter%25) == 0){
+  //    setColorSS(colorCounter%7);
+  //    colorCounter++;
+  //  }
 }
 
 void loop(){
   if (Serial.available()) {
     Serial.flush();
-    beatCounter++;
+    currentSiteSwap++;
   }
 
   if(ball.getLanded()){
     ball.resetLanded();
-    Serial.print(beatCounter);
-    beatCounter = 1;
+    setColorSS(0);
+  }
+
+  if(ball.getThrown()){
+    
+    // Serial.print((int)currentSiteSwap);
+
+    // update of prediction arrays
+    if (predictedSiteSwap) { // a prediction was made for this throw
+      switch (predictionConfidence) {
+      case 1:
+        if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
+          historyP[previousSiteSwap] = 0; // reset prediction value
+        } 
+        break;
+      case 2:
+        if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
+          historyPP[previousPreviousSiteSwap][previousSiteSwap] = 0;  // reset prediction value
+        } 
+        break;
+      }
+    } else { // a prediction was not made for this throw, therefore update arrays  
+      historyP[previousSiteSwap] = currentSiteSwap;
+      historyPP[previousPreviousSiteSwap][previousSiteSwap] = currentSiteSwap;
+    }
+    
+    // move history
+    previousPreviousSiteSwap = previousSiteSwap;
+    previousSiteSwap = currentSiteSwap;
+    currentSiteSwap = 1;
+    
+    // make prediction
+    if (historyPP[previousPreviousSiteSwap][previousSiteSwap] > 0) {
+      predictedSiteSwap = historyPP[previousPreviousSiteSwap][previousSiteSwap];
+      predictionConfidence = 2;
+    } else if (historyP[previousSiteSwap] > 0) {
+      predictedSiteSwap = historyP[previousSiteSwap];
+      predictionConfidence = 1;
+    } else {
+      predictedSiteSwap = previousSiteSwap;
+      predictionConfidence = 0;
+    }
+    
+    setColorSS(predictedSiteSwap);
+    
+    ball.resetThrown();
+    Serial.print((int) predictedSiteSwap);
   }
 
   //  if(ball.getInAir()) {
@@ -71,28 +126,39 @@ void color(unsigned char R, unsigned char G, unsigned char B) {
 void setColorSS(int i) {
   switch (i) {
   case 0:
-    setColor(255,0,0);
+    ball.setColor(1,1,1); // DIM
     break;
   case 1:
-    setColor(255,255,0);
+    ball.setColor(255,0,0); // RED
     break;
   case 2:
-    setColor(0,255,0);
+    ball.setColor(255,255,0); // YELLOW
     break;
   case 3:
-    setColor(0,255,255);
+    ball.setColor(0,255,0); // GREEN
     break;
   case 4:
-    setColor(0,0,255);
+    ball.setColor(0,0,255); // BLUE
     break;
   case 5:
-    setColor(255,0,255);
+    ball.setColor(128,0,255); // VIOLET
     break;
   case 6:
-    setColor(255,255,255);
+    ball.setColor(255,255,255); // FUCHSIA
+    break;
+  default:
+    ball.setColor(1,1,1); // DIM
     break;
   }
 }
+
+
+
+
+
+
+
+
 
 
 
