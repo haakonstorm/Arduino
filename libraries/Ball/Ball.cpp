@@ -18,6 +18,7 @@ Ball::Ball(){
   	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
   	_id = EEPROM.read(ID); 
+
 }
 
 void Ball::processAD(void){
@@ -54,7 +55,7 @@ void Ball::processAD(void){
     	_inAir = FALSE;
     	_flyTime = count;
     	count = 0;
-    	landed = TRUE;
+    	_landed = TRUE;
     }
 }
 
@@ -189,11 +190,11 @@ bool Ball::getInAir(){
 }
 
 bool Ball::getLanded(){
-	return landed;
+	return _landed;
 }
 
-void Ball::resetLanded(void){
-	landed = FALSE;
+void Ball::resetLanded(){
+	_landed = FALSE;
 }
 
 float Ball::getBatteryLevel(){

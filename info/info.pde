@@ -8,10 +8,10 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-int id_TOEEPROM = 1;
-int x_TOEEPROM = 515;
-int y_TOEEPROM = 495;
-int z_TOEEPROM = 495;
+int id_TOEEPROM = 7;
+int x_TOEEPROM = 511;
+int y_TOEEPROM = 514;
+int z_TOEEPROM = 500;
 
 Ball ball;
 int radioInput;

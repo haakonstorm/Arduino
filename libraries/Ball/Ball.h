@@ -49,7 +49,6 @@ class Ball{
 
 	// PUBLIC
 	public:
-		
 		Ball(void);
 		void processAD(void);
 		void fadeColor(bool r, bool g, bool b);
@@ -70,9 +69,10 @@ class Ball{
 		bool getLanded();
 		void resetLanded(void);
 		void delayedSetColor(unsigned char R, unsigned char G, unsigned char B);
+		static const byte expcolor [256];
+
 	// PRIVATE
-	private:
-	
+	private:	
 		// Numerical constants used for battery level etc
 		static const float _voltsPrBit =  0.00322265f;
 		static const float _voltsPrBitDivided = 0.0064453f;
@@ -81,7 +81,7 @@ class Ball{
 
 		// global variables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
-		bool landed;
+		bool _landed;
 		int _x, _y, _z;
 		unsigned int _absX, _absY, _absZ; 
 		unsigned int _sum, _prevSum;
@@ -90,11 +90,9 @@ class Ball{
 		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
 		unsigned int _holdTime;	// ditto
 		unsigned int _halfHoldTime; //used for changing color between two throws.
-
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
 		unsigned int _id;
-
 	
 };
 

@@ -7,7 +7,7 @@
 // table of exponential values
 // generated for values of i from 0 to 255 -> x=round( pow( 2.0, i/32.0) - 1);
 
-const byte table[] = {
+const byte expcolor[] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
   0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 
@@ -38,9 +38,9 @@ void sendColor(){
   static byte val_G = 0;
   static byte val_B = 0;
   
-  val_R = table[map(analogRead(SLIDER_R),0,1023,255,0)];
-  val_G = table[map(analogRead(SLIDER_G),0,1023,255,0)];
-  val_B = table[map(analogRead(SLIDER_B),0,1023,255,0)];
+  val_R = expcolor[map(analogRead(SLIDER_R),0,1023,255,0)];
+  val_G = expcolor[map(analogRead(SLIDER_G),0,1023,255,0)];
+  val_B = expcolor[map(analogRead(SLIDER_B),0,1023,255,0)];
   
   Serial.write('C');
   Serial.write(val_R);
