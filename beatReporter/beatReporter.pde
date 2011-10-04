@@ -42,47 +42,43 @@ void loop(){
   }
 
   if(ball.getThrown()){
-    
-    // Serial.print((int)currentSiteSwap);
 
     // update of prediction arrays
-    if (predictedSiteSwap) { // a prediction was made for this throw
-      switch (predictionConfidence) {
-      case 1:
-        if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
-          historyP[previousSiteSwap] = 0; // reset prediction value
-        } 
-        break;
-      case 2:
-        if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
-          historyPP[previousPreviousSiteSwap][previousSiteSwap] = 0;  // reset prediction value
-        } 
-        break;
+    if (predictionConfidence == 2) { // a prediction with confidence 2 was made for this throw
+      if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
+        historyPP[previousPreviousSiteSwap][previousSiteSwap] = 0;  // reset prediction value
       }
-    } else { // a prediction was not made for this throw, therefore update arrays  
-      historyP[previousSiteSwap] = currentSiteSwap;
-      historyPP[previousPreviousSiteSwap][previousSiteSwap] = currentSiteSwap;
     }
-    
+    else if (predictionConfidence == 1) { // a prediction with confidence 1 was made for this throw
+      if (predictedSiteSwap != currentSiteSwap) { // a wrong prediction was made
+        historyP[previousSiteSwap] = 0; // reset prediction value
+      }
+    }
+
+    historyP[previousSiteSwap] = currentSiteSwap;
+    historyPP[previousPreviousSiteSwap][previousSiteSwap] = currentSiteSwap;
+
     // move history
     previousPreviousSiteSwap = previousSiteSwap;
     previousSiteSwap = currentSiteSwap;
     currentSiteSwap = 1;
-    
+
     // make prediction
     if (historyPP[previousPreviousSiteSwap][previousSiteSwap] > 0) {
       predictedSiteSwap = historyPP[previousPreviousSiteSwap][previousSiteSwap];
       predictionConfidence = 2;
-    } else if (historyP[previousSiteSwap] > 0) {
+    } 
+    else if (historyP[previousSiteSwap] > 0) {
       predictedSiteSwap = historyP[previousSiteSwap];
       predictionConfidence = 1;
-    } else {
+    } 
+    else {
       predictedSiteSwap = previousSiteSwap;
       predictionConfidence = 0;
     }
-    
+
     setColorSS(predictedSiteSwap);
-    
+
     ball.resetThrown();
     Serial.print((int) predictedSiteSwap);
   }
@@ -151,6 +147,9 @@ void setColorSS(int i) {
     break;
   }
 }
+
+
+
 
 
 
