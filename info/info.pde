@@ -8,10 +8,10 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-int id_TOEEPROM = 7;
-int x_TOEEPROM = 511;
-int y_TOEEPROM = 514;
-int z_TOEEPROM = 500;
+int id_TOEEPROM = 3;
+int x_TOEEPROM = 512;
+int y_TOEEPROM = 505;
+int z_TOEEPROM = 493;
 
 Ball ball;
 int radioInput;
@@ -51,7 +51,7 @@ void processAD() {
       break;
     case '1': 
       showInfo();
-      break;    
+      break;
     case '2': 
       readEEPROM();
       break;
@@ -59,44 +59,60 @@ void processAD() {
       showXYZ = !showXYZ;
       if (showXYZ) {
         Serial.println("\nStarter maaling av x-, y- og z-verdier.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       } 
       else {
         Serial.println("\nStopper maaling av x-, y- og z-verdier.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       }
       break;
     case 'n':
       filtered = !filtered;
       if (filtered) {
         Serial.println("\nSlaar paa filtrering av x-, y- og z-verdier.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       } 
       else {
         Serial.println("\nSlaar av filtrering av x-, y- og z-verdier.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       }
       break; 
     case 'f':
       showForce = !showForce;
       if (showForce) {
         Serial.println("\nStarter maaling av kraften som virker paa ballen.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       } 
       else {
         Serial.println("\nStopper maaling av kraften som virker paa ballen.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       }
       break;
     case 'i':
       colorInAir = !colorInAir;
       if (colorInAir) {
         Serial.println("\nStarter programmet som bytter farge naar ballen er i luften.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       } 
       else {
         Serial.println("\nStopper programmet som bytter farge naar ballen er i luften.");
+        delay(100);
         Serial.println("--------------------------------------");
+        delay(100);
       }
       break;
     case 'E': 
@@ -114,20 +130,22 @@ void processAD() {
     y = analogRead(Y);
     z = analogRead(Z);
     if (!filtered || ((abs(500-x) < 50) && (abs(500-y) < 50) && (abs(500-z) < 50))) { // ((abs(x-xP)<7) && (abs(y-yP)<7) && (abs(y-yP)<7))
-      Serial.print ("X: ");
-      Serial.print (x);
-      Serial.print (". Y: ");
-      Serial.print (y);
-      Serial.print (". Z: ");
-      Serial.println (z);
+      Serial.print("X: ");
+      Serial.print(x);
+      Serial.print(". Y: ");
+      Serial.print(y);
+      Serial.print(". Z: ");
+      Serial.println(z);
+      delay(100);
     }
   }
 
   if(showForce & (samples%25==0)){
     force = ball.getF();
     Serial.print ("Kraften som virker paa ballen: ");
-    Serial.println("--------------------------------------");
+    delay(100);
     Serial.println (force);
+    delay(100);
   }
 
   if(colorInAir){
@@ -172,23 +190,28 @@ void printMenu(){
 }
 
 void showInfo(){
-  Serial.println("\nInformasjon om tilkoblet ball:");
+  Serial.println("\nInformasjon om tilkoblet ball:");delay(100);
   delay(100);
   Serial.println("--------------------------------------");  
   delay(100);
   Serial.print("Ball-nummer:            ");
+  delay(100);
   Serial.println(ball.getId());
   delay(100);
   Serial.print("Batterispenning:        ");
+  delay(100);
   Serial.println(ball.getBatteryLevel());
   delay(100);
   Serial.print("x-verdi ved fritt fall: ");
+  delay(100);
   Serial.println((EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow));
   delay(100);
   Serial.print("y-verdi ved fritt fall: ");
+  delay(100);
   Serial.println((EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow));
   delay(100);
   Serial.print("z-verdi ved fritt fall: ");
+  delay(100);
   Serial.println((EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow));
   delay(100);
 }
@@ -202,8 +225,11 @@ void readEEPROM(){
   for (int address=0; address<512; address++){
     value = EEPROM.read(address);
     Serial.print(address);
+    delay(100);
     Serial.print("\t");
+    delay(100);
     Serial.print(value, DEC);
+    delay(100);
     Serial.println();
     delay(100);
   }
@@ -226,53 +252,81 @@ void writeEEPROM(){
   ball.setColor(255,0,0);
 
   Serial.println("\nSKRIVER TIL EEPROM!");
-  Serial.println("--------------------------------------");  
+  delay(100);
+  Serial.println("--------------------------------------");
+  delay(100);
 
   Serial.print("Ball-nummer:            ");
+  delay(100);
   Serial.println(id_TOEEPROM);
+  delay(100);
   EEPROM.write(ID,id_TOEEPROM);
+  delay(100);
   Serial.print("SJEKKER... ");
+  delay(100);
   if(id_TOEEPROM == EEPROM.read(ID)) {
     Serial.println("OK!");
+    delay(100);
   } 
   else {
     Serial.println("FEIL!");
+    delay(100);
   }
 
   Serial.print("x-verdi ved fritt fall: ");
+  delay(100);
   Serial.println(x_TOEEPROM);
+  delay(100);
   EEPROM.write(xEepromHigh,xH);
+  delay(100);
   EEPROM.write(xEepromLow,xL);
+  delay(100);
   Serial.print("SJEKKER... ");
+  delay(100);
   if(x_TOEEPROM == ((EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow))) {
     Serial.println("OK!");
+    delay(100);
   } 
   else {
     Serial.println("FEIL!");
+    delay(100);
   }
 
   Serial.print("y-verdi ved fritt fall: ");
+  delay(100);
   Serial.println(y_TOEEPROM);
+  delay(100);
   EEPROM.write(yEepromHigh,yH);
+  delay(100);
   EEPROM.write(yEepromLow,yL);
+  delay(100);
   Serial.print("SJEKKER... ");
+  delay(100);
   if(y_TOEEPROM == ((EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow))) {
     Serial.println("OK!");
+    delay(100);
   } 
   else {
     Serial.println("FEIL!");
+    delay(100);
   }
 
   Serial.print("z-verdi ved fritt fall: ");
+  delay(100);
   Serial.println(z_TOEEPROM);
+  delay(100);
   EEPROM.write(zEepromHigh,zH);
+  delay(100);
   EEPROM.write(zEepromLow,zL);
+  delay(100);
   Serial.print("SJEKKER... ");
   if(z_TOEEPROM == ((EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow))) {
     Serial.println("OK!");
+    delay(100);
   } 
   else {
     Serial.println("FEIL!");
+    delay(100);
   }
 
   ball.setColor(0,255,0);
