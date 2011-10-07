@@ -1,3 +1,42 @@
+Informasjon om tilkoblet ball:
+--------------------------------------
+Ball-nummer:            0
+Batterispenning:        4.17
+x-verdi ved fritt fall: 510
+y-verdi ved fritt fall: 498
+z-verdi ved fritt fall: 491
+
+
+
+Informasjon om tilkoblet ball:
+--------------------------------------
+Ball-nummer:            5
+Batterispenning:        3.94
+x-verdi ved fritt fall: 504
+y-verdi ved fritt fall: 499
+z-verdi ved fritt fall: 508
+
+
+Informasjon om tilkoblet ball:
+--------------------------------------
+Ball-nummer:            6
+Batterispenning:        3.77
+x-verdi ved fritt fall: 515
+y-verdi ved fritt fall: 496
+z-verdi ved fritt fall: 496
+
+
+Informasjon om tilkoblet ball:
+--------------------------------------
+Ball-nummer:            7
+Batterispenning:        4.18
+x-verdi ved fritt fall: 511
+y-verdi ved fritt fall: 514
+z-verdi ved fritt fall: 500
+
+
+
+
 
 kretskort   23g
 skall       28g
@@ -13,14 +52,14 @@ ball 93g
 
 
 id	x	y	z
-0	510	498	491	96g	Roger	OK
-1	517	501	499	93g	Roger	OK
+0	510	498	491	96g	Roger	OK!
+1	517	501	499	93g	Roger	problemer med programmering over USB (reset-relatert)
 2				Dyre
 3				Dyre
 4				Dyre
-5	504	499	508	94g	Roger	OK
-6	515	496	496	97g	Roger	OK
-7	511	514	500	95g	Roger	OK
+5	504	499	508	94g	Roger	OK!
+6	515	496	496	97g	Roger	OK!
+7	511	514	500	95g	Roger	OK!
 1	-	XX	-		Roger	problemer med y-acc
 
 
