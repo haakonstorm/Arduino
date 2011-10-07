@@ -3,10 +3,21 @@
 #define SLIDER_R 2
 #define SLIDER_G 1
 #define SLIDER_B 0
+#define BUTTON1  10
+#define LED1  5
+#define LED2  6
+
+#define PASSIVE 0
+#define FORCE_GAME 1
+#define SITESWAP 2
+
+byte state = 1;
+static int counter = 0;
+unsigned char balls [4] = {
+  0,5,6,7};
 
 // table of exponential values
 // generated for values of i from 0 to 255 -> x=round( pow( 2.0, i/32.0) - 1);
-
 const byte expcolor[] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
   0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -29,35 +40,59 @@ const byte expcolor[] = {
 
 void setup(){
   Serial.begin(19200);
-  MsTimer2::set(30, sendColor);
+  MsTimer2::set(30, sendSignal);
   MsTimer2::start();
+//  counter++;
+//  digitalWrite(LED2,HIGH);
 }
 
-void sendColor(){
-  static byte val_R = 0;
-  static byte val_G = 0;
-  static byte val_B = 0;
-  
-  val_R = expcolor[map(analogRead(SLIDER_R),0,1023,255,0)];
-  val_G = expcolor[map(analogRead(SLIDER_G),0,1023,255,0)];
-  val_B = expcolor[map(analogRead(SLIDER_B),0,1023,255,0)];
-  
-  Serial.write('C');
-  Serial.write(val_R);
-  Serial.write(val_G);
-  Serial.write(val_B);
+void sendSignal(){
 
-//  Serial.print("R: ");
-//  Serial.print(val_R);
-//
-//  Serial.print(" G: ");
-//  Serial.print(val_G);
-//  
-//  Serial.print(" B: ");
-//  Serial.println(val_B);
+  //if (state == REMOTE_CONTROL) {
+    static byte val_R = 0;
+    static byte val_G = 0;
+    static byte val_B = 0;
+
+    val_R = expcolor[map(analogRead(SLIDER_R),0,1023,255,0)];
+    val_G = expcolor[map(analogRead(SLIDER_G),0,1023,255,0)];
+    val_B = expcolor[map(analogRead(SLIDER_B),0,1023,255,0)];
+
+    Serial.write('c');
+    Serial.write(val_R);
+    Serial.write(val_G);
+    Serial.write(val_B);
+  //}
 }
 
 void loop() {
+} 
+
+void loops() {
+  if(!(digitalRead(BUTTON1))) {
+    digitalWrite(LED1,HIGH);
+    Serial.println("HEI");
+    delay(1);
+    state++;
+    if(state > 2){ 
+      state = 0;
+    }
+
+    if (state == PASSIVE) {
+      Serial.write('.');
+    } 
+    else {
+      Serial.write(':');
+      Serial.write(state);
+    }
+    if (state == FORCE_GAME) {
+      Serial.write((byte) balls[random(4)]);
+    }
+
+    while(!(digitalRead(BUTTON1)));
+  }
 }
+
+
+
 
 
