@@ -2,9 +2,14 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-// table of exponential values
-// generated for values of i from 0 to 255 -> x=round( pow( 2.0, i/32.0) - 1);
 Ball ball;
+
+static unsigned char minX = 1023;
+static unsigned char minY = 1023;
+static unsigned char minZ = 1023;
+static unsigned char maxX = 0;
+static unsigned char maxY = 0;
+static unsigned char maxX = 0;
 
 const byte expcolor[] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -28,8 +33,19 @@ const byte expcolor[] = {
 
 void setup(){
   Serial.begin(19200);
-  MsTimer2::set(30, sendColor);
+  MsTimer2::set(5, processAD);
   MsTimer2::start();
+  setColorSS(0);
+}
+
+void processAD(){
+  ball.processAD();
+  minX = min(minX, ball.getX());
+  minY = min(minY, ball.getY());
+  minZ = min(minZ, ball.getZ());
+  maxX = max(maxX, ball.getX());
+  maxY = max(maxY, ball.getY());
+  maxZ = max(maxZ, ball.getZ());
 }
 
 void sendColor(){
@@ -37,9 +53,9 @@ void sendColor(){
   static byte val_G = 0;
   static byte val_B = 0;
   
-  val_R = expcolor[map(min(600,max(400,analogRead(A0))),400,600,0,255)];
-  val_G = expcolor[map(min(600,max(400,analogRead(A1))),400,600,0,255)];
-  val_B = expcolor[map(min(600,max(400,analogRead(A2x))),400,600,0,255)];
+  val_R = expcolor[map(min(maxX,max(minX,ball.getX())),minX,maxX,1,99)];
+  val_G = expcolor[map(min(maxY,max(minY,ball.getY())),minY,maxY,1,99)];
+  val_B = expcolor[map(min(maxZ,max(minZ,ball.getZ())),minZ,maxZ,1,99)];
 
   ball.setColor(val_R, val_G, val_B);
 }
