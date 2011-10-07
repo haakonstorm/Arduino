@@ -236,6 +236,6 @@ float Ball::getBatteryLevel(){
 	return temp;
 }
 
-unsigned int Ball::getId(){
+unsigned char Ball::getId(){
 	return _id;
 }

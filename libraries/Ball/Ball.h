@@ -65,7 +65,7 @@ class Ball{
 		unsigned int getFlyTime();
 		bool getInAir();
 		float getBatteryLevel();
-		unsigned int getId();		
+		unsigned char getId();		
 		bool getLanded();
 		void resetLanded();
 		bool getThrown();
@@ -95,7 +95,7 @@ class Ball{
 		unsigned int _halfHoldTime; //used for changing color between two throws.
 		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
 		//Siteswap value for the ball. Will increase with each incomming value.
-		unsigned int _id;
+		unsigned char _id;
 	
 };
 
