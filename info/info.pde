@@ -9,9 +9,9 @@
 #include <EEPROM.h>
 
 int id_TOEEPROM = 3;
-int x_TOEEPROM = 512;
-int y_TOEEPROM = 505;
-int z_TOEEPROM = 493;
+int x_TOEEPROM = 510;
+int y_TOEEPROM = 500;
+int z_TOEEPROM = 492;
 
 Ball ball;
 int radioInput;
@@ -30,8 +30,9 @@ void setup(){
 }
 
 void processAD() {
-  static int samples = 0;
-  static int x, xP, y, yP, z, zP, force;
+  static int samples = 0, averageSamples = 0;
+  static int x, y, z, force;
+  static float xA = 0, yA = 0, zA = 0;
   static byte rB, gB, bB;
   ball.processAD();
 
@@ -123,18 +124,26 @@ void processAD() {
   }
 
   if(showXYZ & (samples%25==0)){
-    xP = x;
-    yP = y;
-    zP = z;
     x = analogRead(X);
     y = analogRead(Y);
     z = analogRead(Z);
-    if (!filtered || ((abs(500-x) < 50) && (abs(500-y) < 50) && (abs(500-z) < 50))) { // ((abs(x-xP)<7) && (abs(y-yP)<7) && (abs(y-yP)<7))
-      Serial.print("X: ");
+    if (!filtered || ((abs(500-x) < 50) && (abs(500-y) < 50) && (abs(500-z) < 50))) {
+      xA = (x + (averageSamples * xA)) / (averageSamples + 1);
+      yA = (y + (averageSamples * yA)) / (averageSamples + 1);
+      zA = (z + (averageSamples * zA)) / (averageSamples + 1);
+      averageSamples++;
+
+      Serial.print("XA: ");
+      Serial.print(xA);
+      Serial.print(" YA: ");
+      Serial.print(yA);
+      Serial.print(" ZA: ");
+      Serial.print(zA);
+      Serial.print(" X: ");
       Serial.print(x);
-      Serial.print(". Y: ");
+      Serial.print(" Y: ");
       Serial.print(y);
-      Serial.print(". Z: ");
+      Serial.print(" Z: ");
       Serial.println(z);
       delay(100);
     }
@@ -190,7 +199,8 @@ void printMenu(){
 }
 
 void showInfo(){
-  Serial.println("\nInformasjon om tilkoblet ball:");delay(100);
+  Serial.println("\nInformasjon om tilkoblet ball:");
+  delay(100);
   delay(100);
   Serial.println("--------------------------------------");  
   delay(100);
@@ -333,6 +343,7 @@ void writeEEPROM(){
 
   showInfo(); 
 }
+
 
 
 

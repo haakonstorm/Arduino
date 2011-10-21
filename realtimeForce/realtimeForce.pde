@@ -21,12 +21,12 @@ void processAD(){
 
   ball.processAD();
 
-  if(ball.getInAir())
+  if(ball.getThrown())
   {
-    ball.setColor(255,0,0);
+    ball.setColor(random(255),random(255),random(255));
   }
   else{
-    ball.setColor(0,255,0);
+    ball.setColor(0,0,0);
   }
 
   samples++;
