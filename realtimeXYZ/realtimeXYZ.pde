@@ -14,7 +14,6 @@ void setup() {
 static int samples = 0;
 
 void processAD() {
-
   ball.processAD();
 
   if (ball.getThrown()) {
@@ -26,6 +25,7 @@ void processAD() {
     ball.setColor(1,1,1);
     ball.resetLanded();
   }
+  
 
   if (samples == 10) {
     samples = 0;
@@ -34,7 +34,11 @@ void processAD() {
     Serial.print(' ');
     Serial.print(ball.getY());
     Serial.print(' ');
-    Serial.println(ball.getZ());
+    Serial.print(ball.getZ());
+    Serial.print(' ');
+    Serial.print(ball.getF());
+    Serial.print(' ');
+    Serial.println(ball.getV());
   }
   samples++;
 }

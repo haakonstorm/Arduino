@@ -46,56 +46,58 @@
 #define ID 6
 
 class Ball{
-
+    
 	// PUBLIC
-	public:
-		Ball(void);
-		void processAD(void);
-		void fadeColor(bool r, bool g, bool b);
-		void setFadeColor(unsigned char color);
-		void setReleaseColor(unsigned char R, unsigned char G, unsigned char B);
-		void setColor(unsigned char R, unsigned char G, unsigned char B);
-		void radioBroadcast(void);
-		int getX();
-		int getY();
-		int getZ();
-		int getF();
-		int getSum();
-		unsigned int getHoldTime();
-		unsigned int getFlyTime();
-		bool getInAir();
-		float getBatteryLevel();
-		unsigned char getId();		
-		bool getLanded();
-		void resetLanded();
-		bool getThrown();
-		void resetThrown();
-		void delayedSetColor(unsigned char R, unsigned char G, unsigned char B);
-		static const byte expcolor [256];
-
+public:
+    Ball(void);
+    void processAD(void);
+    void fadeColor(bool r, bool g, bool b);
+    void setFadeColor(unsigned char color);
+    void setReleaseColor(unsigned char R, unsigned char G, unsigned char B);
+    void setColor(unsigned char R, unsigned char G, unsigned char B);
+    void radioBroadcast(void);
+    int getX();
+    int getY();
+    int getZ();
+    int getF();
+    int getV();
+    int getSum();
+    unsigned int getHoldTime();
+    unsigned int getFlyTime();
+    bool getInAir();
+    float getBatteryLevel();
+    unsigned char getId();		
+    bool getLanded();
+    void resetLanded();
+    bool getThrown();
+    void resetThrown();
+    void delayedSetColor(unsigned char R, unsigned char G, unsigned char B);
+    static const byte expcolor [256];
+    
 	// PRIVATE
-	private:	
-		// Numerical constants used for battery level etc
-		static const float _voltsPrBit =  0.00322265f;
-		static const float _voltsPrBitDivided = 0.0064453f;
-		// Value for force-threshold fluing / resting
-		static const unsigned int _LIMIT = 15;
-
-		// global variables. These are typical sensor readings and timer values gathered
-		// in the interrupt service routine and utilized elsewhere
-		bool _landed;
-		int _x, _y, _z;
-		unsigned int _absX, _absY, _absZ; 
-		unsigned int _sum, _prevSum;
-		unsigned int _F, _prevF;
-		bool _inAir;
-		bool _thrown;
-		unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
-		unsigned int _holdTime;	// ditto
-		unsigned int _halfHoldTime; //used for changing color between two throws.
-		unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
-		//Siteswap value for the ball. Will increase with each incomming value.
-		unsigned char _id;
+private:	
+    // Numerical constants used for battery level etc
+    static const float _voltsPrBit =  0.00322265f;
+    static const float _voltsPrBitDivided = 0.0064453f;
+    // Value for force-threshold fluing / resting
+    static const unsigned int _LIMIT = 15;
+    
+    // global variables. These are typical sensor readings and timer values gathered
+    // in the interrupt service routine and utilized elsewhere
+    bool _landed;
+    int _x, _y, _z;
+    float _oneG, _V;
+    unsigned int _absX, _absY, _absZ; 
+    unsigned int _sum, _prevSum;
+    float _F, _prevF;
+    bool _inAir;
+    bool _thrown;
+    unsigned int _flyTime;	// in number of samples; at 200Hz it is 5ms per sample
+    unsigned int _holdTime;	// ditto
+    unsigned int _halfHoldTime; //used for changing color between two throws.
+    unsigned int _xN, _yN, _zN; // Neutral values for x, y and z. Gathered from EEPROM in constructor.
+    //Siteswap value for the ball. Will increase with each incomming value.
+    unsigned char _id;
 	
 };
 

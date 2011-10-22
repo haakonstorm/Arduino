@@ -10,18 +10,25 @@
 
 // Constructor for Ball
 Ball::Ball(){
+    
+    // Pins for colors
   	pinMode(BLUEPIN, OUTPUT);
   	pinMode(REDPIN, OUTPUT);
   	pinMode(GREENPIN, OUTPUT);
-      
+
+    // Read constants from EEPROM
   	_xN = (EEPROM.read(xEepromHigh) * 256) + EEPROM.read(xEepromLow);
   	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
   	_id = EEPROM.read(ID);
+    
+    // Variables
+    _oneG = 103.0;
+    _V = 0.0;
   	
 	// The voltage applied to the AREF pin (0 to 5V only) is used as the reference.
 	analogReference(EXTERNAL);
- 
+    
 	// Adjust Arduino PWM frequencies. See http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1235060559
 	// Pins 5 and 6  are controlled by 8-bit Timer/Counter0 in fast PWM mode.
 	// This affects millis() and delay().
@@ -32,7 +39,7 @@ Ball::Ball(){
 	// 0x04   256  244,140625
 	// 0x05  1024  61,03515625 
 	TCCR0B = TCCR0B & 0b11111000 | 0x02;
-			
+    
 	// Pins 9 and 10  are controlled by 16-bit Timer/Counter1 in phase correct PWM mode.
 	// Frequency = 16000000 / (510 * N) = 31372,549019608 / N
 	// 0x01     1  31372,549019608
@@ -41,14 +48,14 @@ Ball::Ball(){
 	// 0x04   256  122,549019608
 	// 0x05  1024  30,637254902	 	
 	TCCR1B = TCCR1B & 0b11111000 | 0x02;
-
 }
 
 void Ball::processAD(void){
   	
-  	static unsigned int count;
+    static unsigned int count;
+  	static unsigned int identicalFs = 0;
   	static long longX, longY, longZ;
-
+    
 	_x = analogRead(X) - _xN;
   	_y = analogRead(Y) - _yN;
   	_z = analogRead(Z) - _zN;
@@ -58,17 +65,33 @@ void Ball::processAD(void){
   	longZ = _z;
   	
     _prevF = _F;
-	_F = (int) sqrt (longX * longX + longY * longY + longZ * longZ);
+    _F = sqrt (longX * longX + longY * longY + longZ * longZ);
+    
+    if (abs(103 - _F) < 2) {
+        identicalFs++;
+        if ((identicalFs >= 10)) {
+            _oneG = _F;
+            _V = 0.0;
+            identicalFs = 0;
+        }
+    } else {
+        identicalFs = 0;
+    }
+    
+    
+    
 	
+	_V = _V + ((_F - _oneG)/20);
+    
 	_absX =abs(_x);
 	_absY =abs(_y);
 	_absZ =abs(_z);
 	
 	_prevSum = _sum;
 	_sum = _absX + _absY + _absZ;
-	 	
+    
 	count ++;	
-   
+    
  	if (_sum < _LIMIT && _prevSum < _LIMIT && !_inAir){
     	_thrown = TRUE;
       	_inAir = TRUE;
@@ -97,7 +120,7 @@ void Ball::fadeColor (bool r, bool g, bool b){
 				strength = 0;
 				decrease = false;
 				return;
-				}
+            }
 			if(cR)
 				analogWrite(REDPIN, strength);
 			if(cG)
@@ -194,7 +217,11 @@ int Ball::getZ(){
 }
 
 int Ball::getF(){
-	return _F;
+	return (int) _F;
+}
+
+int Ball::getV(){
+	return (int) _V;
 }
 
 int Ball::getSum(){
@@ -204,7 +231,7 @@ int Ball::getSum(){
 unsigned int Ball::getHoldTime(){
 	return _holdTime;
 }
-	
+
 unsigned int Ball::getFlyTime(){
 	return _flyTime;
 }
