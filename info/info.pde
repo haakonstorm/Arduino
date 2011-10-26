@@ -8,25 +8,34 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-int id_TOEEPROM = 3;
-int x_TOEEPROM = 510;
-int y_TOEEPROM = 500;
-int z_TOEEPROM = 492;
-
 Ball ball;
-int radioInput;
+
+unsigned char radioInput;
+
+unsigned char id_TOEEPROM = 3;
+int x_TOEEPROM = 503;
+int y_TOEEPROM = 500;
+int z_TOEEPROM = 511;
+
+unsigned char Xcount[60];
+unsigned char Ycount[60];
+unsigned char Zcount[60];
+unsigned char Xmax, Ymax, Zmax;
+
 boolean showXYZ = false;
 boolean filtered = true;
 boolean showForce = false;
 boolean colorInAir = false;
 
 void setup(){
+  defaultColor();
+  initCounters();
   Serial.begin(19200);
-  MsTimer2::set(5, processAD);
-  MsTimer2::start();
-  ball.setColor(1,1,1);
   printMenu();
   showInfo();
+  MsTimer2::set(5, processAD);
+  MsTimer2::start();
+  //writeEEPROM();
 }
 
 void processAD() {
@@ -123,29 +132,54 @@ void processAD() {
     Serial.flush();
   }
 
-  if(showXYZ & (samples%25==0)){
+  if(showXYZ & (samples%10==0)){
     x = analogRead(X);
     y = analogRead(Y);
     z = analogRead(Z);
-    if (!filtered || ((abs(500-x) < 50) && (abs(500-y) < 50) && (abs(500-z) < 50))) {
+    if (!filtered || ((abs(500-x) < 30) && (abs(500-y) < 30) && (abs(500-z) < 30))) {
       xA = (x + (averageSamples * xA)) / (averageSamples + 1);
       yA = (y + (averageSamples * yA)) / (averageSamples + 1);
       zA = (z + (averageSamples * zA)) / (averageSamples + 1);
       averageSamples++;
+      Xcount[530-x]++;
+      Ycount[530-y]++;
+      Zcount[530-z]++;
+      setMax();
 
-      Serial.print("XA: ");
-      Serial.print(xA);
-      Serial.print(" YA: ");
-      Serial.print(yA);
-      Serial.print(" ZA: ");
-      Serial.print(zA);
-      Serial.print(" X: ");
-      Serial.print(x);
-      Serial.print(" Y: ");
-      Serial.print(y);
-      Serial.print(" Z: ");
-      Serial.println(z);
-      delay(100);
+      if (samples%30==0){
+        // X, Y, and Z
+        Serial.print(" XYZ: ");
+        Serial.print(x);
+        Serial.print(" ");
+        Serial.print(y);
+        Serial.print(" ");
+        Serial.print(z);
+
+        // MAX-COUNTER
+        Serial.print(" \tMAX: ");
+        Serial.print(530-Xmax);
+        Serial.print(" (");
+        Serial.print(String(Xcount[Xmax], DEC));
+        Serial.print(") ");
+        Serial.print(530-Ymax);
+        Serial.print(" (");
+        Serial.print(String(Ycount[Ymax], DEC));
+        Serial.print(") ");
+        Serial.print(530-Zmax);
+        Serial.print(" (");
+        Serial.print(String(Zcount[Zmax], DEC));
+        Serial.print(") ");
+
+        // RUNNING AVERAGE
+        Serial.print(" \tAVG: ");
+        Serial.print(xA);
+        Serial.print(" ");
+        Serial.print(yA);
+        Serial.print(" ");
+        Serial.print(zA);
+        
+        Serial.print("\n");
+      }
     }
   }
 
@@ -175,7 +209,7 @@ void loop(){
 }
 
 void printMenu(){
-  ball.setColor(1,1,1);
+  defaultColor();
   Serial.println("\nSmarte baller med visuell forsterkning");
   delay(100);
   Serial.println("--------------------------------------");
@@ -344,9 +378,31 @@ void writeEEPROM(){
   showInfo(); 
 }
 
+void setMax() {
+  for (int i = 0; i < 60; i++) {
+    if(Xcount[Xmax] < Xcount[i]) {
+      Xmax = i;
+    }
+    if(Ycount[Ymax] < Ycount[i]) {
+      Ymax = i;
+    }
+    if(Zcount[Zmax] < Zcount[i]) {
+      Zmax = i;
+    }
+  }
+}
 
+void initCounters() {
+  for (int i = 0; i < 60; i++) {
+    Xcount[i] = 0;
+    Ycount[i] = 0;
+    Zcount[i] = 0;
+  }
+}
 
-
+void defaultColor() {
+  ball.setColor(1,1,1);
+}
 
 
 

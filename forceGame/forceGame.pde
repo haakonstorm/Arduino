@@ -9,8 +9,7 @@ Ball ball;
 static byte id = 3;
 static byte maxId = 3;
 static int forceCounter = 0;
-static boolean locked;
-static unsigned char lock;
+static unsigned char lock = 0;
 byte radioInput;
 byte randomByte;
 
@@ -23,23 +22,21 @@ void setup(){
 
 void processAD() {
   ball.processAD();
-  x = analogRead(X);
-  y = analogRead(Y);
-  z = analogRead(Z);
 
-  if (locked && (lock == 0)) {
+  if (lock == 1) {
     forceCounter = forceCounter + max(0,max(max(x,y),z)-600);
     if (forceCounter > 5000) {
-      locked = false;
+      lock = 0;
       forceCounter = 0;
-      color(0,0,1);
+      color(0,0,0);
       callNext();
     }
   }
-  else if (locked && (lock == 1)) {
-    if (((abs(500-x) < 40) && (abs(500-y) < 40) && (abs(500-z) < 40))) {
-      locked = false;
-      color(0,0,1);
+  
+  else if (lock == 2) {
+    if (ball.getInAir() || ((abs(500-x) < 40) && (abs(500-y) < 40) && (abs(500-z) < 40))) {
+      lock = 0;
+      color(0,0,0);
       callNext();
     }
   }
@@ -82,9 +79,6 @@ void color(unsigned char R, unsigned char G, unsigned char B) {
 
 void loop() {
   if(Serial.available() > 0 ) {
-    //    color(255,255,255);
-    //    delay(10);
-    //    color(1,1,1);
     radioInput = Serial.read();
     if (radioInput == id) {
       activateLock();
@@ -96,15 +90,14 @@ void activateLock() {
   randomByte = (byte) random(2);
   switch (randomByte) {
   case 0: 
-    lock = 0;
+    lock = 1;
     color(0,255,0);
     break;
   case 1: 
-    lock = 1;
+    lock = 2;
     color(255,0,0);
     break;
   }
-  locked = true;
 }
 
 byte nextId(byte x) {

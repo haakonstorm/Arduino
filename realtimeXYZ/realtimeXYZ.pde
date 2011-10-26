@@ -30,15 +30,17 @@ void processAD() {
   if (samples == 10) {
     samples = 0;
     Serial.print('m');
-    Serial.print(ball.getX());
-    Serial.print(' ');
-    Serial.print(ball.getY());
-    Serial.print(' ');
-    Serial.print(ball.getZ());
-    Serial.print(' ');
+//    Serial.print(ball.getX());
+//    Serial.print(' ');
+//    Serial.print(ball.getY());
+//    Serial.print(' ');
+//    Serial.print(ball.getZ());
+//    Serial.print(' ');
     Serial.print(ball.getF());
     Serial.print(' ');
-    Serial.println(ball.getV());
+    Serial.print(ball.getV());
+    Serial.print(' ');
+    Serial.println(ball.getP());
   }
   samples++;
 }

@@ -25,6 +25,8 @@ Ball::Ball(){
     // Variables
     _oneG = 103.0;
     _V = 0.0;
+    _P = 0.0;
+
   	
 	// The voltage applied to the AREF pin (0 to 5V only) is used as the reference.
 	analogReference(EXTERNAL);
@@ -72,6 +74,7 @@ void Ball::processAD(void){
         if ((identicalFs >= 10)) {
             _oneG = _F;
             _V = 0.0;
+            _P = 0.0;
             identicalFs = 0;
         }
     } else {
@@ -82,6 +85,8 @@ void Ball::processAD(void){
     
 	
 	_V = _V + ((_F - _oneG)/20);
+    
+    _P = _P + (_V/20);
     
 	_absX =abs(_x);
 	_absY =abs(_y);
@@ -222,6 +227,10 @@ int Ball::getF(){
 
 int Ball::getV(){
 	return (int) _V;
+}
+
+int Ball::getP(){
+	return (int) _P;
 }
 
 int Ball::getSum(){

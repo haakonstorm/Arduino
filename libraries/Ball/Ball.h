@@ -61,6 +61,7 @@ public:
     int getZ();
     int getF();
     int getV();
+    int getP();
     int getSum();
     unsigned int getHoldTime();
     unsigned int getFlyTime();
@@ -86,7 +87,7 @@ private:
     // in the interrupt service routine and utilized elsewhere
     bool _landed;
     int _x, _y, _z;
-    float _oneG, _V;
+    float _oneG, _V, _P;
     unsigned int _absX, _absY, _absZ; 
     unsigned int _sum, _prevSum;
     float _F, _prevF;
