@@ -12,7 +12,7 @@ Ball ball;
 
 unsigned char radioInput;
 
-unsigned char id_TOEEPROM = 3;
+unsigned char id_TOEEPROM = 4;
 int x_TOEEPROM = 503;
 int y_TOEEPROM = 500;
 int z_TOEEPROM = 511;
@@ -128,7 +128,10 @@ void processAD() {
     case 'E': 
       writeEEPROM();
       break;
-    }
+    case 'I': 
+      writeEEPROM_ID();
+      break;
+    }    
     Serial.flush();
   }
 
@@ -230,6 +233,8 @@ void printMenu(){
   delay(100);
   Serial.println("E. Skriver id, x, y og z til EEPROM.");
   delay(100);
+  Serial.println("I. Skriver id til EEPROM.");
+  delay(100);
 }
 
 void showInfo(){
@@ -240,7 +245,7 @@ void showInfo(){
   delay(100);
   Serial.print("Ball-nummer:            ");
   delay(100);
-  Serial.println(ball.getId());
+  Serial.println(String(ball.getId(), DEC));
   delay(100);
   Serial.print("Batterispenning:        ");
   delay(100);
@@ -302,7 +307,7 @@ void writeEEPROM(){
 
   Serial.print("Ball-nummer:            ");
   delay(100);
-  Serial.println(id_TOEEPROM);
+  Serial.println(String(id_TOEEPROM, DEC));
   delay(100);
   EEPROM.write(ID,id_TOEEPROM);
   delay(100);
@@ -375,6 +380,47 @@ void writeEEPROM(){
 
   ball.setColor(0,255,0);
 
+  showInfo(); 
+}
+
+void writeEEPROM_ID(){
+  int xH, xL;
+  int yH, yL;
+  int zH, zL;
+
+  xH = (int) x_TOEEPROM / 256;
+  xL = x_TOEEPROM - (xH * 256);
+
+  yH = (int) y_TOEEPROM / 256;
+  yL = y_TOEEPROM - (yH * 256);
+
+  zH = (int) z_TOEEPROM / 256;
+  zL = z_TOEEPROM - (zH * 256);
+
+  ball.setColor(0,0,255);
+
+  Serial.println("\nSKRIVER TIL EEPROM!");
+  delay(100);
+  Serial.println("--------------------------------------");
+  delay(100);
+
+  Serial.print("Ball-nummer:            ");
+  delay(100);
+  Serial.println(String(id_TOEEPROM, DEC));
+  delay(100);
+  EEPROM.write(ID,id_TOEEPROM);
+  delay(100);
+  Serial.print("SJEKKER... ");
+  delay(100);
+  if(id_TOEEPROM == EEPROM.read(ID)) {
+    Serial.println("OK!");
+    delay(100);
+  } 
+  else {
+    Serial.println("FEIL!");
+    delay(100);
+  }
+  ball.setColor(0,255,0);
   showInfo(); 
 }
 
