@@ -12,10 +12,10 @@ Ball ball;
 
 unsigned char radioInput;
 
-unsigned char id_TOEEPROM = 4;
-int x_TOEEPROM = 503;
-int y_TOEEPROM = 500;
-int z_TOEEPROM = 511;
+unsigned char id_TOEEPROM = 1;
+int x_TOEEPROM = 513;
+int y_TOEEPROM = 499;
+int z_TOEEPROM = 501;
 
 unsigned char Xcount[60];
 unsigned char Ycount[60];

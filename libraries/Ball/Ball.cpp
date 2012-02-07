@@ -61,6 +61,8 @@ void Ball::processAD(void){
 	_x = analogRead(X) - _xN;
   	_y = analogRead(Y) - _yN;
   	_z = analogRead(Z) - _zN;
+    
+    _rssi = analogRead(RSSI);
   	
   	longX = _x;
   	longY = _y;
@@ -69,12 +71,12 @@ void Ball::processAD(void){
     _prevF = _F;
     _F = sqrt (longX * longX + longY * longY + longZ * longZ);
     
-    if (abs(103 - _F) < 2) {
+    if (abs(103 - _F) < 1.6) {
         identicalFs++;
-        if ((identicalFs >= 10)) {
+        if ((identicalFs >= 60)) {
             _oneG = _F;
             _V = 0.0;
-            _P = 0.0;
+            // _P = 0.0;
             identicalFs = 0;
         }
     } else {
@@ -84,9 +86,9 @@ void Ball::processAD(void){
     
     
 	
-	_V = _V + ((_F - _oneG)/20);
+	_V = _V + ((_F - _oneG)/50);
     
-    _P = _P + (_V/20);
+    _P = _P + (_V/400);
     
 	_absX =abs(_x);
 	_absY =abs(_y);
@@ -235,6 +237,10 @@ int Ball::getP(){
 
 int Ball::getSum(){
 	return _sum;
+}
+
+int Ball::getRSSI(){
+	return _rssi;
 }
 
 unsigned int Ball::getHoldTime(){
