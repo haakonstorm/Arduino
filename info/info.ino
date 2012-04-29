@@ -33,6 +33,8 @@ void setup(){
   Serial.begin(19200);
   printMenu();
   showInfo();
+  delay(1000);
+  // writeEEPROM();
   MsTimer2::set(5, processAD);
   MsTimer2::start();
   //writeEEPROM();

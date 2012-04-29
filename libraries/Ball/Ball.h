@@ -6,7 +6,7 @@
 #ifndef Ball_h
 #define Ball_h
 
-#include "WProgram.h"
+#include "Arduino.h"
 
 // First, define pins for LEDS:
 #define REDPIN 10

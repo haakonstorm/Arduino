@@ -3,7 +3,7 @@
  * http://www.smarteballer.no/
  */
 
-#include <WProgram.h>
+#include <Arduino.h>
 #include <EEPROM.h>
 #include <MsTimer2.h>
 #include <Ball.h>
