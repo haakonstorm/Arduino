@@ -9,7 +9,6 @@
 #include <EEPROM.h>
 
 Ball ball;
-
 unsigned char radioInput;
 
 unsigned char id_TOEEPROM = 4;
@@ -26,6 +25,7 @@ boolean showXYZ = false;
 boolean filtered = true;
 boolean showForce = false;
 boolean colorInAir = false;
+boolean busy = false;
 
 void setup(){
   defaultColor();
@@ -34,20 +34,102 @@ void setup(){
   printMenu();
   showInfo();
   delay(1000);
-  // writeEEPROM();
   MsTimer2::set(5, processAD);
   MsTimer2::start();
-  //writeEEPROM();
 }
 
-void processAD() {
-  static int samples = 0, averageSamples = 0;
-  static int x, y, z, force;
-  static float xA = 0, yA = 0, zA = 0;
-  static byte rB, gB, bB;
-  ball.processAD();
+static int samples = 0, averageSamples = 0;
+static int x, y, z, force;
+static float xA = 0, yA = 0, zA = 0;
+static byte rB, gB, bB;
 
+void processAD() {
+  samples++;
+  if (!busy) {
+    busy = true;
+    ball.processAD();
+
+    if(showXYZ & (samples%10==0)){
+      x = analogRead(X);
+      y = analogRead(Y);
+      z = analogRead(Z);
+      if (!filtered || ((abs(500-x) < 30) && (abs(500-y) < 30) && (abs(500-z) < 30))) {
+        xA = (x + (averageSamples * xA)) / (averageSamples + 1);
+        yA = (y + (averageSamples * yA)) / (averageSamples + 1);
+        zA = (z + (averageSamples * zA)) / (averageSamples + 1);
+        averageSamples++;
+        Xcount[530-x]++;
+        Ycount[530-y]++;
+        Zcount[530-z]++;
+        setMax();
+
+        if (samples%30==0){
+          
+          ball.setColor(255,0,0);
+          
+          // X, Y, and Z
+          Serial.print(" XYZ: ");
+          Serial.print(x);
+          Serial.print(" ");
+          Serial.print(y);
+          Serial.print(" ");
+          Serial.print(z);
+
+          // MAX-COUNTER
+          Serial.print(" \tMAX: ");
+          Serial.print(530-Xmax);
+          Serial.print(" (");
+          Serial.print(String(Xcount[Xmax], DEC));
+          Serial.print(") ");
+          Serial.print(530-Ymax);
+          Serial.print(" (");
+          Serial.print(String(Ycount[Ymax], DEC));
+          Serial.print(") ");
+          Serial.print(530-Zmax);
+          Serial.print(" (");
+          Serial.print(String(Zcount[Zmax], DEC));
+          Serial.print(") ");
+
+          // RUNNING AVERAGE
+          Serial.print(" \tAVG: ");
+          Serial.print(xA);
+          Serial.print(" ");
+          Serial.print(yA);
+          Serial.print(" ");
+          Serial.print(zA);
+
+          Serial.print("\n");
+          
+          ball.setColor(0,0,0);
+          
+        }
+      }
+    }
+
+    if(showForce & (samples%25==0)){
+      force = ball.getF();
+      Serial.print ("Kraften som virker paa ballen: ");
+      delay(100);
+      Serial.println (force);
+      delay(100);
+    }
+
+    if(colorInAir){
+      if(ball.getInAir()) {
+        ball.setColor(255,0,0);
+      }
+      else{
+        ball.setColor(0,255,0);
+      }
+    }
+  }
+  busy = false;
+}
+
+
+void loop(){
   if(Serial.available() > 0) {
+    busy = true;
     radioInput = Serial.read();
     switch (radioInput) {
     case 'C':
@@ -133,84 +215,13 @@ void processAD() {
     case 'I': 
       writeEEPROM_ID();
       break;
-    }    
-    Serial.flush();
-  }
-
-  if(showXYZ & (samples%10==0)){
-    x = analogRead(X);
-    y = analogRead(Y);
-    z = analogRead(Z);
-    if (!filtered || ((abs(500-x) < 30) && (abs(500-y) < 30) && (abs(500-z) < 30))) {
-      xA = (x + (averageSamples * xA)) / (averageSamples + 1);
-      yA = (y + (averageSamples * yA)) / (averageSamples + 1);
-      zA = (z + (averageSamples * zA)) / (averageSamples + 1);
-      averageSamples++;
-      Xcount[530-x]++;
-      Ycount[530-y]++;
-      Zcount[530-z]++;
-      setMax();
-
-      if (samples%30==0){
-        // X, Y, and Z
-        Serial.print(" XYZ: ");
-        Serial.print(x);
-        Serial.print(" ");
-        Serial.print(y);
-        Serial.print(" ");
-        Serial.print(z);
-
-        // MAX-COUNTER
-        Serial.print(" \tMAX: ");
-        Serial.print(530-Xmax);
-        Serial.print(" (");
-        Serial.print(String(Xcount[Xmax], DEC));
-        Serial.print(") ");
-        Serial.print(530-Ymax);
-        Serial.print(" (");
-        Serial.print(String(Ycount[Ymax], DEC));
-        Serial.print(") ");
-        Serial.print(530-Zmax);
-        Serial.print(" (");
-        Serial.print(String(Zcount[Zmax], DEC));
-        Serial.print(") ");
-
-        // RUNNING AVERAGE
-        Serial.print(" \tAVG: ");
-        Serial.print(xA);
-        Serial.print(" ");
-        Serial.print(yA);
-        Serial.print(" ");
-        Serial.print(zA);
-        
-        Serial.print("\n");
-      }
+    }
+    while(Serial.available() > 0){
+      // ball.setColor(0,0,255);
+      Serial.read();
     }
   }
-
-  if(showForce & (samples%25==0)){
-    force = ball.getF();
-    Serial.print ("Kraften som virker paa ballen: ");
-    delay(100);
-    Serial.println (force);
-    delay(100);
-  }
-
-  if(colorInAir){
-    if(ball.getInAir()) {
-      ball.setColor(255,0,0);
-    }
-    else{
-      ball.setColor(0,255,0);
-    }
-  }
-
-
-  samples++;
-}
-
-
-void loop(){
+  busy = false;
 }
 
 void printMenu(){
@@ -451,6 +462,10 @@ void initCounters() {
 void defaultColor() {
   ball.setColor(1,1,1);
 }
+
+
+
+
 
 
 
