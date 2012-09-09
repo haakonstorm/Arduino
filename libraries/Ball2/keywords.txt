@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map For Ball
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Ball	KEYWORD1
+Ball2	KEYWORD1
+MsTimer2	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+processAD	KEYWORD2
+colorFade	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+RED	LITERAL1
+GREEN	LITERAL1
+BLUE	LITERAL1
+X	LITERAL1
+Y	LITERAL1
+Z	LITERAL1
+RSSI	LITERAL1
+VCC	LITERAL1
+xEepromHigh	LITERAL1
+xEepromLow	LITERAL1
+yEepromHigh 	LITERAL1
+yEepromLow	LITERAL1
+zEepromHigh	LITERAL1
+zEepromLow	LITERAL1
+ID	LITERAL1
