@@ -1,20 +1,20 @@
 /*
- * (c) 2011 Smarte baller med visuell forsterkning
+ * (c) 2012 Smarte baller med visuell forsterkning
  * E-post:   smarteballer@ifi.uio.no
  * Nettside: http://www.smarteballer.no/
  */
 
-#include <Ball.h>
+#include <Ball2.h>
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-Ball ball;
+Ball2 ball;
 unsigned char radioInput;
 
-unsigned char id_TOEEPROM = 22;
-int x_TOEEPROM = 503;
+unsigned char id_TOEEPROM = 99;
+int x_TOEEPROM = 500;
 int y_TOEEPROM = 500;
-int z_TOEEPROM = 511;
+int z_TOEEPROM = 500;
 
 unsigned char Xcount[60];
 unsigned char Ycount[60];
