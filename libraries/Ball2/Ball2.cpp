@@ -1,9 +1,8 @@
 /*
- * (c) 2011 Smarte baller med visuell forsterkning <smarteballer@ifi.uio.no>
+ * (c) 2012 Smarte baller med visuell forsterkning <smarteballer@ifi.uio.no>
  * http://www.smarteballer.no/
  */
 
-//#include <WProgram.h>
 #include <EEPROM.h>
 #include <MsTimer2.h>
 #include <Ball2.h>
