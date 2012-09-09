@@ -40,7 +40,7 @@ const byte expcolor[] = {
 
 void setup(){
   Serial.begin(19200);
-  MsTimer2::set(30, sendSignal);
+  MsTimer2::set(50, sendSignal);
   MsTimer2::start();
 //  counter++;
 //  digitalWrite(LED2,HIGH);
