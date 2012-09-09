@@ -1,4 +1,3 @@
-
 #include <Ball2.h>
 #include <MsTimer2.h>
 #include <EEPROM.h>
@@ -16,6 +15,10 @@ void setup(){
 
 
 void loop(){
+}
+
+void serialEvent(){
+  int dummy;
   if(Serial.available() >= 4){
     firstByte = Serial.read();
     if (firstByte == 'c') {
@@ -23,10 +26,13 @@ void loop(){
       int gB = Serial.read();
       int bB = Serial.read();
       ball.setColor(rB, gB, bB);
-      Serial.flush();
+      while (Serial.available()){
+        dummy = Serial.read();
+      }
     }
   }
 }
+
 
 
 
