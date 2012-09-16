@@ -3,11 +3,7 @@
 #include <EEPROM.h>
 
 Ball2 ball;
-
-boolean active;
 byte input_byte [5];
-byte input_position;
-byte incoming_byte;
 
 void setup(){
   Serial.begin(19200);
@@ -15,10 +11,11 @@ void setup(){
 }
 
 void loop(){
+  sendSound(
 }
 
 void runCommand() {
-  if (input_byte[0] == 0) {
+  if (input_byte[0] == 0 || input_byte[0] == ball.getId()) {
     switch (input_byte[1]) {
     case 'C':
       int rB = input_byte[2];
@@ -31,6 +28,9 @@ void runCommand() {
 }
 
 void serialEvent(){
+  static boolean active;
+  static byte input_position;
+  static byte incoming_byte;
   while (Serial.available()) {
     incoming_byte = Serial.read();
     if (input_position == 5) {
@@ -49,6 +49,7 @@ void serialEvent(){
     }
   }
 }
+
 
 
 
