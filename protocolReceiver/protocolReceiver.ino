@@ -23,6 +23,11 @@ void runCommand() {
       int bB = input_byte[4];
       ball.setColor(rB, gB, bB);
       break;
+    case 'L':
+      int frequency = input_byte[2] * 265 + input_byte[3];
+      int duration = input_byte[4] * 10;
+      tone(2, frequency, duration);
+      break;
     }
   }
 }
