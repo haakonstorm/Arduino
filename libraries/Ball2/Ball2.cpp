@@ -55,12 +55,12 @@ void Ball2::processAD(void){
    // We can now determine if the ball has been thrown or landed. Observe that we need two consecutive measures of same state before we actually 
    // switch. This is to prevent misreadings in case of a noisy reading. When the ball is thrown or lands we store the _holdtime or _flytime. It
    // is useful for many things.
- 	if (_sum < _LIMIT && _prevSum < _LIMIT && !_inAir){
+ 	if (_sum < _LIMIT && _prevSum < _LIMIT && !_inAir && count > 20){
     	_thrown = TRUE;
       	_inAir = TRUE;
       	_holdTime = count;
       	count = 0;
-    } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir){
+    } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir count > 20){
     	_inAir = FALSE;
     	_landed = TRUE;
     	_flyTime = count;
