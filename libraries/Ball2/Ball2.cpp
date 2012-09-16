@@ -60,7 +60,7 @@ void Ball2::processAD(void){
       	_inAir = TRUE;
       	_holdTime = count;
       	count = 0;
-    } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir count > 20){
+    } else if (_sum > _LIMIT && _prevSum > _LIMIT && _inAir && count > 20){
     	_inAir = FALSE;
     	_landed = TRUE;
     	_flyTime = count;
