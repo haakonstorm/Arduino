@@ -2,12 +2,10 @@
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-
 // Lag en instans av klassen ball.
 Ball2 ball;
 
-
-// Setup er en standardfunksjon i arduino. Når programmet kjøres vil det alltid starte her. Legg merke til at det første vi gjør er å sette opp 
+// Setup er en standardfunksjon i Arduino. Når programmet kjøres vil det alltid starte her. Legg merke til at det første vi gjør er å sette opp 
 // analog referance for AD-konverter og endre timere for PWM til styring av lysdioder. Det vill kanskje vært naturlig å gjøre dette i 
 // Konstruktoren til klassen Ball, men av en eller annen grunn er det ikke tillatt av Arduino. Derfor setter vi de opp her.
 
