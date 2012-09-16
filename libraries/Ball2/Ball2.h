@@ -46,6 +46,7 @@ class Ball2{
 		int getZ();
 		int getF();
 		int getSum();
+		int getRSSI();
 		void resetTap();
 		bool getTap();
 		unsigned int getHoldTime();
@@ -69,7 +70,7 @@ class Ball2{
 		// privat ariables. These are typical sensor readings and timer values gathered
 		// in the interrupt service routine and utilized elsewhere
 		bool _landed; 
-		int _x, _y, _z;
+		int _x, _y, _z, _rssi;
 		unsigned int _absX, _absY, _absZ; 
 		unsigned int _sum, _prevSum;
 		unsigned int _F, _prevF;
