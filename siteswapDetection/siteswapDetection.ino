@@ -1,9 +1,9 @@
 
-#include <Ball.h>
+#include <Ball2.h>
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-Ball ball;
+Ball2 ball;
 static int sampleCounter = 0;
 unsigned char historyP[10];
 unsigned char historyPP[10][10];
