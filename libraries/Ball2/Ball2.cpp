@@ -17,11 +17,8 @@ Ball2::Ball2(){
   	_yN = (EEPROM.read(yEepromHigh) * 256) + EEPROM.read(yEepromLow);
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
   	_id = EEPROM.read(ID);
-  
   	
-	
-
-}
+  	}
 
 void Ball2::processAD(void){
   	
@@ -137,6 +134,12 @@ int Ball2::getF(){
 //Returns the sum of the force acting on the ball.
 int Ball2::getSum(){
 	return _sum;
+}
+
+//Returns the RSSI
+int Ball2::getRSSI(){
+	_rssi = analogRead(RSSI);
+	return _rssi;
 }
 
 // Returns how long the ball was hold, before last throw
