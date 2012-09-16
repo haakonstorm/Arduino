@@ -1,11 +1,10 @@
+
 #include <Ball.h>
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
 Ball ball;
 static int sampleCounter = 0;
-static unsigned char prevSiteSwaps = 1;
-static int colorCounter = 0;
 unsigned char historyP[10];
 unsigned char historyPP[10][10];
 static unsigned char currentSiteSwap = 1;
@@ -30,12 +29,13 @@ void processAD(){
   //  }
 }
 
-void loop(){
-  if (Serial.available()) {
+
+void serialEvent() {
     Serial.read();
     currentSiteSwap++;
-  }
+}
 
+void loop(){
   if(ball.getLanded()){
     ball.resetLanded();
     setColorSS(0);
@@ -55,6 +55,9 @@ void loop(){
       }
     }
 
+    if (currentSiteSwap > 9) {
+      currentSiteSwap = 9;
+    }
     historyP[previousSiteSwap] = currentSiteSwap;
     historyPP[previousPreviousSiteSwap][previousSiteSwap] = currentSiteSwap;
 
@@ -80,7 +83,7 @@ void loop(){
     setColorSS(predictedSiteSwap);
 
     ball.resetThrown();
-    Serial.print((int) predictedSiteSwap);
+    Serial.print((int) previousSiteSwap);
   }
 
   //  if(ball.getInAir()) {
@@ -137,16 +140,26 @@ void setColorSS(int i) {
     ball.setColor(0,0,255); // BLUE
     break;
   case 5:
-    ball.setColor(128,0,255); // VIOLET
+    ball.setColor(128,128,255);
     break;
   case 6:
-    ball.setColor(255,255,255); // FUCHSIA
+    ball.setColor(128,255,128);
     break;
+  case 7:
+    ball.setColor(255,128,128);
+    break;
+  case 8:
+    ball.setColor(255,255,255);
+    break;
+  case 9:
+    ball.setColor(255,0,255);
+    break;    
   default:
     ball.setColor(1,1,1); // DIM
     break;
   }
 }
+
 
 
 
