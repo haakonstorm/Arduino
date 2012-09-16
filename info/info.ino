@@ -204,7 +204,6 @@ void loop(){
       }
       break;
     case 'i':
-      //analogReference(EXTERNAL);
       colorInAir = !colorInAir;
       if (colorInAir) {
         Serial.println("\nStarter programmet som bytter farge naar ballen er i luften.");
