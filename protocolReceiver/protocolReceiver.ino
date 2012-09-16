@@ -11,22 +11,25 @@ void setup(){
 }
 
 void loop(){
-  sendSound(
 }
 
 void runCommand() {
   if (input_byte[0] == 0 || input_byte[0] == ball.getId()) {
     switch (input_byte[1]) {
     case 'C':
-      int rB = input_byte[2];
-      int gB = input_byte[3];
-      int bB = input_byte[4];
-      ball.setColor(rB, gB, bB);
+      {
+        int rB = input_byte[2];
+        int gB = input_byte[3];
+        int bB = input_byte[4];
+        ball.setColor(rB, gB, bB);
+      }
       break;
     case 'L':
-      int frequency = input_byte[2] * 265 + input_byte[3];
-      int duration = input_byte[4] * 10;
-      tone(2, frequency, duration);
+      {
+        int frequency = input_byte[2] * 265 + input_byte[3];
+        int duration = input_byte[4] * 10;
+        tone(2, frequency, duration);
+      }
       break;
     }
   }
@@ -54,6 +57,7 @@ void serialEvent(){
     }
   }
 }
+
 
 
 
