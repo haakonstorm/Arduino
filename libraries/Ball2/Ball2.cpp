@@ -17,15 +17,23 @@ Ball2::Ball2() {
   	_zN = (EEPROM.read(zEepromHigh) * 256) + EEPROM.read(zEepromLow);
   	_id = EEPROM.read(ID);
 
+	// Read from EEPROM
 	if (EEPROM.read(SPEAKER) == 1) {
 		_hasSpeaker = TRUE;
 	} else {
 		_hasSpeaker = FALSE;
 	}
+
+	// Variables. Default _oneG is about 103
+	_oneG = 102.0;
+	_V = 0.0;
+	_P = 0.0;
+
 }
 
 void Ball2::processAD(void) {
-  	static unsigned int count;
+  	static byte count;
+  	static int identicalFs = 0;
   	static long longX, longY, longZ;
 
 	// Read the analog port for the accelerometer values, and
@@ -45,11 +53,35 @@ void Ball2::processAD(void) {
 	// Calculate the force acting on the ball in this timestep.
 	_F = (int) sqrt (longX * longX + longY * longY + longZ * longZ);
 
+	// Calculate the difference in force.
+	_diffF = abs(_F - _prevF);
+
+	// Auto-calibration of _oneG and reset velocity.
+	if (abs(102.0 - _F) < 4) {
+		identicalFs++;
+		// If we have read 60 identical measurements, reset and calibrate.
+		if ((identicalFs >= 30)) {
+			_oneG = _F;
+			_V = 0.0;
+			// _P = 0.0; Leave _P untouched, because it
+			// does not make sense to reset it.
+			identicalFs = 0;
+		}
+	} else {
+		identicalFs = 0;
+	}
+
+	// Numerical integration; the new velocity. 50 determines the slope.
+	_V = _V + ((_F - _oneG)/50);
+
+	// Numerical integration; the new position. 500 determines the slope.
+	_P = _P + (_V/50);
+
 	// Insted of calculating the force on the ball, we can examine
 	// the force in each axis to determine free-fall.
-	_absX =abs(_x);
-	_absY =abs(_y);
-	_absZ =abs(_z);
+	_absX = abs(_x);
+	_absY = abs(_y);
+	_absZ = abs(_z);
 
 	// Store previous value.
 	_prevSum = _sum;
@@ -77,6 +109,13 @@ void Ball2::processAD(void) {
 		_flyTime = count;
 		count = 0;
 	}
+
+	// Try to determine if the ball has been tapped.
+  	if (!_inAir && _diffF > 100 && count > 20) {
+  		_tapped = TRUE;
+		count = 0;
+  	}
+
 }
 
 //The function aboves takes some time to execute. In the cases where
@@ -114,7 +153,7 @@ bool Ball2::getTapped(void) {
 }
 
 // Sets the color of the ball. RGB values from 0-255 are input.
-void Ball2::setColor(unsigned char R, unsigned char G, unsigned char B) {
+void Ball2::setColor(byte R, byte G, byte B) {
 	analogWrite(REDPIN, R);
 	analogWrite(GREENPIN, G);
 	analogWrite(BLUEPIN, B);
@@ -139,6 +178,21 @@ int Ball2::getF() {
 	return _F;
 }
 
+// Returns the relative velocity of the ball.
+int Ball2::getV(){
+	return (int) _V;
+}
+
+// Returns the relative position
+int Ball2::getP(){
+	return (int) _P;
+}
+
+// Returns the relative position
+int Ball2::getOneG(){
+	return (int) _oneG;
+}
+
 //Returns the sum of the force acting on the ball.
 int Ball2::getSum() {
 	return _sum;
@@ -151,12 +205,12 @@ int Ball2::getRSSI() {
 }
 
 // Returns how long the ball was hold, before last throw.
-unsigned int Ball2::getHoldTime() {
+int Ball2::getHoldTime() {
 	return _holdTime;
 }
 
 // Returns how long the ball was in the air, last time it landed.
-unsigned int Ball2::getFlyTime() {
+int Ball2::getFlyTime() {
 	return _flyTime;
 }
 
@@ -206,6 +260,6 @@ float Ball2::getBatteryLevel() {
 }
 
 // Returns the unique id of the ball (stored in EEPROM).
-unsigned int Ball2::getId() {
+int Ball2::getId() {
 	return _id;
 }
