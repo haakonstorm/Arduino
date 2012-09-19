@@ -43,20 +43,23 @@ public:
 	Ball2(void);
 	void processAD(void);
 	void processADFast(void);
-	void setColor(unsigned char R, unsigned char G, unsigned char B);
+	void setColor(byte R, byte G, byte B);
 	int getX();
 	int getY();
 	int getZ();
 	int getF();
+	int getV();
+	int getP();
+	int getOneG();
 	int getSum();
 	int getRSSI();
 	void resetTapped();
 	bool getTapped();
-	unsigned int getHoldTime();
-	unsigned int getFlyTime();
+	int getHoldTime();
+	int getFlyTime();
 	bool getInAir();
 	float getBatteryLevel();
-	unsigned int getId();
+	int getId();
 	bool getLanded();
 	void resetLanded();
 	bool getThrown();
@@ -70,26 +73,28 @@ private:
 	static const float _voltsPrBitDivided = 0.0064453f;
 
 	// Value for force-threshold flying / resting
-	static const unsigned int _LIMIT = 15;
+	static const int _LIMIT = 15;
 
 	// Private variables. These are typical sensor readings and
 	// timer values gathered in the interrupt service routine and
 	// utilized elsewhere
 	bool _landed;
 	int _x, _y, _z, _rssi;
-	unsigned int _absX, _absY, _absZ;
-	unsigned int _sum, _prevSum;
-	unsigned int _F, _prevF;
+	float _oneG, _V, _P;
+	int _absX, _absY, _absZ;
+	int _sum, _prevSum;
+	int _F, _prevF;
+	int _diffF;
 	bool _inAir;
 	bool _thrown;
 	bool _tapped;
-	unsigned int _flyTime; // in number of samples; at 200Hz it is 5ms per sample
+	int _flyTime; // in number of samples; at 200Hz it is 5ms per sample
 
-	unsigned int _holdTime; // in number of samples; at 200Hz it // is 5ms per sample
-	unsigned int _xN, _yN, _zN; // Neutral values for x, y and z.
+	int _holdTime; // in number of samples; at 200Hz it // is 5ms per sample
+	int _xN, _yN, _zN; // Neutral values for x, y and z.
 				    // Gathered from EEPROM in
 				    // constructor.
-	unsigned int _id;
+	int _id;
 	bool _hasSpeaker;
 };
 
