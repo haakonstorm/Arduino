@@ -36,7 +36,6 @@ void setup(){
   showInfo();
   delay(1000);
   MsTimer2::set(5, processAD);
-  // MsTimer2::start();
 }
 
 static int samples = 0, averageSamples = 0;
@@ -255,7 +254,7 @@ void printMenu(){
   delay(150);
   Serial.println("i. Starter eller stopper programmet som bytter farge naar ballen er i luften.");
   delay(150);
-  Serial.println("E. Skriver id, x, y og z til EEPROM.");
+  Serial.println("E. Skriver x, y og z til EEPROM.");
   delay(150);
   Serial.println("I. Skriver id til EEPROM.");
   delay(150);
@@ -328,23 +327,6 @@ void writeEEPROM(){
   delay(150);
   Serial.println("--------------------------------------");
   delay(150);
-
-  Serial.print("Ball-nummer:            ");
-  delay(150);
-  Serial.println(String(id_TOEEPROM, DEC));
-  delay(150);
-  EEPROM.write(ID,id_TOEEPROM);
-  delay(150);
-  Serial.print("SJEKKER... ");
-  delay(150);
-  if(id_TOEEPROM == EEPROM.read(ID)) {
-    Serial.println("OK!");
-    delay(150);
-  } 
-  else {
-    Serial.println("FEIL!");
-    delay(150);
-  }
 
   Serial.print("x-verdi ved fritt fall: ");
   delay(150);
@@ -423,7 +405,7 @@ void writeEEPROM_ID(){
 
   ball.setColor(0,0,255);
 
-  Serial.println("\nSKRIVER TIL EEPROM!");
+  Serial.println("\nSKRIVER ID TIL EEPROM!");
   delay(150);
   Serial.println("--------------------------------------");
   delay(150);
@@ -439,7 +421,7 @@ void writeEEPROM_ID(){
   if(id_TOEEPROM == EEPROM.read(ID)) {
     Serial.println("OK!");
     delay(150);
-  } 
+  }  
   else {
     Serial.println("FEIL!");
     delay(150);
@@ -481,6 +463,7 @@ void emptySerialBuffer() {
   while(Serial. available())
     Serial.read();
 }
+
 
 
 
