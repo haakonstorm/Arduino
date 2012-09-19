@@ -68,8 +68,9 @@ void processAD() {
         ball.resetThrown();
       }
     } 
+    
     // Report Landed.
-    else if (reportType == 2 || reportType == 7) {
+    if (reportType == 2 || reportType == 7) {
       if (ball.getLanded()) {
         ball.setColor(1,1,1);
         sendLanded();
@@ -77,7 +78,7 @@ void processAD() {
       }
     }
     // Report Tapped.
-    else if (reportType == 3 || reportType == 7) {
+    if (reportType == 3 || reportType == 7) {
       if (ball.getTapped()) {
         sendTapped();
         ball.setColor(0, 50, 0);
@@ -87,18 +88,22 @@ void processAD() {
         ball.resetTapped();
       }
     }
+    
     // Report Force.
-    else if (reportType == 4) {
+    if (reportType == 4) {
       sendForce();
     }
+    
     // Report Velocity.
-    else if (reportType == 5) {
+    if (reportType == 5) {
       sendVelocity();
     }
+    
     // Report XYZFVP.
-    else if (reportType == 6) {
+    if (reportType == 6) {
       reportXYZFVP = true;
     }
+    
     reportNext--;
   }
 }

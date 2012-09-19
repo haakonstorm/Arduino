@@ -115,11 +115,10 @@ void Ball2::processAD(void) {
   		_tapped = TRUE;
 		count = 0;
   	}
-
 }
 
 //The function aboves takes some time to execute. In the cases where
-//we need a higher sampling frequence, we can use this function.
+//we need a higher sampling frequency, we can use this function.
 void Ball2::processADFast(void) {
 
   	static int prevX, prevY, prevZ, diffX, diffY, diffZ;
