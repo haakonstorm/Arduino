@@ -83,7 +83,7 @@ void loop(){
     setColorSS(predictedSiteSwap);
 
     ball.resetThrown();
-    Serial.print((int) previousSiteSwap);
+    Serial.print((int) predictedSiteSwap);
   }
 
   //  if(ball.getInAir()) {
