@@ -10,6 +10,7 @@ byte reportType = 0;
 byte reportNext = 0;
 boolean reportForever = false;
 boolean reportXYZFVP = false;
+boolean bumpListener = false;
 byte highByte, lowByte;
 
 int R[256] = {
@@ -28,9 +29,13 @@ void setup(){
   ball.setColor(0,0,0);
   MsTimer2::set(5, processAD);
   MsTimer2::start();
+  //reportForever = true;
+  //reportType = 7;
 }
 
 void loop(){
+  //sendInfo();
+  //delay(500);
 }
 
 void processAD() {
@@ -54,7 +59,7 @@ void processAD() {
     }
     samples++;
   }
-
+  
   if (reportForever) {
     reportNext = 1;
   }
@@ -116,6 +121,8 @@ void processAD() {
 // 2: Command.
 //    C: color.
 //       3-5: R,G,B
+//    B: bumplistener.
+//       3: 1 = start, 0 = stop
 //    D: direct color.
 //       3: value (0-255)
 //    T: tone.
@@ -159,7 +166,26 @@ void runCommand() {
         setColor(value);
       }
       break;
-      // Set tone.
+      // Set direct color.
+    case 'B': 
+      {
+        if (input_byte[2] == 1) {
+          ball.resetThrown();
+          ball.resetLanded();
+          ball.resetTapped();
+          bumpListener = true;
+          reportForever = true;
+          reportType = 3;
+        } else {
+          ball.resetThrown();
+          ball.resetLanded();
+          ball.resetTapped();
+          bumpListener = false;
+          reportForever = false;
+          reportType = 0;
+        }
+      }
+      break;      // Set tone.
     case 'T':
       {
         int frequency = input_byte[2] * 256 + input_byte[3];
