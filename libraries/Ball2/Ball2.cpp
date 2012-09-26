@@ -111,7 +111,7 @@ void Ball2::processAD(void) {
 	}
 
 	// Try to determine if the ball has been tapped.
-  	if (!_inAir && _diffF > 100 && count > 20) {
+  	if (!_inAir && _diffF > 80 && count > 20) {
   		_tapped = TRUE;
 		count = 0;
   	}
