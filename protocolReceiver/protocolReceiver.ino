@@ -121,9 +121,13 @@ void processAD() {
 // 2: Command.
 //    C: color.
 //       3-5: R,G,B
+//    A: alpha / brightness.
+//       3: 1 = set brightness directly, 2= set targetBrightness
+//       4: brightness or targetBrightness
+//       5: fadeSpeed
 //    B: bumplistener.
 //       3: 1 = start, 0 = stop
-//    D: direct color.
+//    S: direct color.
 //       3: value (0-255)
 //    T: tone.
 //       3-5: Higbyte for frequency, Lowbyte for frequency, Duration in 1/100 second.
@@ -150,6 +154,7 @@ void runCommand() {
   // If first byte is 0, it applies to all balls. Otherwise, first byte must equal the Id.
   if (input_byte[0] == 0 || input_byte[0] == ball.getId()) {
     switch (input_byte[1]) {
+      
       // Set color.
     case 'C': 
       {
@@ -159,14 +164,31 @@ void runCommand() {
         ball.setColor(rB, gB, bB);
       }
       break;
-      // Set direct color.
-    case 'D': 
+      
+      // Set brightness.
+      case 'A': 
       {
-        int value = input_byte[2];
-        setColor(value);
+        int brightness = input_byte[2];
+        int targetBrightness = input_byte[3];
+        int fadeSpeed = input_byte[4];
+        
+        ball.setBrightness(brightness);
+        ball.setTargetBrightness(targetBrightness);
+        
+        if (fadeSpeed != 0) {
+          ball.setFadeSpeed(fadeSpeed);
+        }
       }
       break;
-      // Set direct color.
+      
+      // Set simple color.
+    case 'S': 
+      {
+        int value = input_byte[2];
+        ball.setSimpleColor(value);
+      }
+      break;
+      // Set brightness.
     case 'B': 
       {
         if (input_byte[2] == 1) {
