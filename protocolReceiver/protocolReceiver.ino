@@ -13,29 +13,18 @@ boolean reportXYZFVP = false;
 boolean bumpListener = false;
 byte highByte, lowByte;
 
-int R[256] = {
-  255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,251,245,240,234,228,222,215,209,203,197,192,186,179,173,167,161,155,149,144,138,132,126,120,113,107,101,96,89,83,77,71,65,59,53,48,42,36,30,24,17,11,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,11,17,23,29,35,41,47,53,60,66,72,78,84,90,96,101,107,113,119,125,131,137,143,149,156,162,168,174,180,186,192,197,203,209,215,221,227,233,239,245,252,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255};
-int G[256] = {
-  0,6,12,18,24,30,36,42,48,54,60,65,72,78,84,89,96,102,108,113,120,126,131,138,144,150,156,162,168,174,179,186,192,198,204,210,216,222,227,234,240,246,252,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,251,245,240,234,227,221,215,209,203,197,192,186,179,173,167,161,155,149,144,138,131,125,119,113,107,101,96,90,83,77,71,65,59,53,48,42,35,29,23,17,11,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-int B[256] = {
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,12,18,24,30,36,42,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144,150,156,162,168,174,180,186,192,198,204,210,216,222,228,234,240,246,252,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,251,245,240,234,228,222,216,209,203,197,191,185,179,173,167,161,155,149,144,138,132,126,120,113,107,101,95,89,83,77,71,65,59,53,48,42,36,30,24,17,11,5,0};
-
-
 static int samples = 0;
 
 void setup(){
+  checkBattery();
   Serial.begin(19200);
-  sendInfo();
   ball.setColor(0,0,0);
+  sendInfo();
   MsTimer2::set(5, processAD);
   MsTimer2::start();
-  //reportForever = true;
-  //reportType = 7;
 }
 
 void loop(){
-  //sendInfo();
-  //delay(500);
 }
 
 void processAD() {
@@ -59,7 +48,7 @@ void processAD() {
     }
     samples++;
   }
-  
+
   if (reportForever) {
     reportNext = 1;
   }
@@ -73,7 +62,7 @@ void processAD() {
         ball.resetThrown();
       }
     } 
-    
+
     // Report Landed.
     if (reportType == 2 || reportType == 7) {
       if (ball.getLanded()) {
@@ -93,22 +82,22 @@ void processAD() {
         ball.resetTapped();
       }
     }
-    
+
     // Report Force.
     if (reportType == 4) {
       sendForce();
     }
-    
+
     // Report Velocity.
     if (reportType == 5) {
       sendVelocity();
     }
-    
+
     // Report XYZFVP.
     if (reportType == 6) {
       reportXYZFVP = true;
     }
-    
+
     reportNext--;
   }
 }
@@ -122,8 +111,12 @@ void processAD() {
 //    C: color.
 //       3-5: R,G,B
 //    A: alpha / brightness.
-//       3: 1 = set brightness directly, 2= set targetBrightness
-//       4: brightness or targetBrightness
+//       3: brightness
+//       4: targetBrightness
+//       5: fadeSpeed
+//    F: fade
+//       3: (undefined)
+//       4: targetBrightness
 //       5: fadeSpeed
 //    B: bumplistener.
 //       3: 1 = start, 0 = stop
@@ -154,7 +147,7 @@ void runCommand() {
   // If first byte is 0, it applies to all balls. Otherwise, first byte must equal the Id.
   if (input_byte[0] == 0 || input_byte[0] == ball.getId()) {
     switch (input_byte[1]) {
-      
+
       // Set color.
     case 'C': 
       {
@@ -164,17 +157,33 @@ void runCommand() {
         ball.setColor(rB, gB, bB);
       }
       break;
-      
+
       // Set brightness.
-      case 'A': 
+    case 'A': 
       {
         int brightness = input_byte[2];
         int targetBrightness = input_byte[3];
         int fadeSpeed = input_byte[4];
-        
+
         ball.setBrightness(brightness);
         ball.setTargetBrightness(targetBrightness);
-        
+
+        if (fadeSpeed != 0) {
+          ball.setFadeSpeed(fadeSpeed);
+        }
+      }
+      break;
+
+      // Set brightness.
+    case 'F': 
+      {
+        // int brightness = input_byte[2];
+        int targetBrightness = input_byte[3];
+        int fadeSpeed = input_byte[4];
+
+        // ball.setBrightness(brightness);
+        ball.setTargetBrightness(targetBrightness);
+
         if (fadeSpeed != 0) {
           ball.setFadeSpeed(fadeSpeed);
         }
@@ -198,7 +207,8 @@ void runCommand() {
           bumpListener = true;
           reportForever = true;
           reportType = 3;
-        } else {
+        } 
+        else {
           ball.resetThrown();
           ball.resetLanded();
           ball.resetTapped();
@@ -414,14 +424,36 @@ void reportNotOK() {
 }
 
 void setColor(byte i){
-  ball.setColor(R[i], G[i], B[i]);
+  ball.setSimpleColor(i);
 }
 
 void randomColor() {
-  setColor((int) random (256));
+  ball.setSimpleColor((byte) random (256));
 }
 
+void checkBattery() {
+  int flashes;
+  float batteryLevel = ball.getBatteryLevel();
+  if(batteryLevel>4.0f)
+    flashes=6;
+  else if (batteryLevel>3.95f)
+    flashes=5;
+  else if (batteryLevel>3.90f)
+    flashes=4;
+  else if (batteryLevel>3.80f)
+    flashes=3;
+  else if (batteryLevel>3.70f)
+    flashes=2;
+  else
+    flashes=1;
 
+  for(int i = 0;i<flashes;i++){
+    ball.setColor(0,10,0);
+    delay(50);
+    ball.setColor(0,0,0);
+    delay(100);
+  }  
+}
 
 
 
