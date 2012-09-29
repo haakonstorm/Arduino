@@ -4,11 +4,11 @@
  * Nettside: http://www.smarteballer.no/
  */
 
-#include <Ball2.h>
+#include <Ball.h>
 #include <MsTimer2.h>
 #include <EEPROM.h>
 
-Ball2 ball;
+Ball ball;
 unsigned char radioInput;
 
 unsigned char id_TOEEPROM = 99;
@@ -29,13 +29,13 @@ boolean busy = false;
 boolean printing = false;
 
 void setup(){
+  Serial.begin(19200);
   defaultColor();
   initCounters();
-  Serial.begin(19200);
-  printMenu();
   showInfo();
   delay(1000);
   MsTimer2::set(5, processAD);
+  MsTimer2::start();
 }
 
 static int samples = 0, averageSamples = 0;
@@ -50,7 +50,7 @@ void processAD() {
     ball.setColor(0,0,255);
     ball.processAD();
 
-    if(showXYZ & (samples%10==0)){
+    if(showXYZ && (samples%10==0)){
       x = analogRead(X);
       y = analogRead(Y);
       z = analogRead(Z);
@@ -70,7 +70,7 @@ void processAD() {
       }
     }
 
-    if(showForce & (samples%25==0)){
+    if(showForce && (samples%25==0)){
       force = ball.getF();
       Serial.print ("Kraften som virker paa ballen: ");
       delay(150);
@@ -272,7 +272,7 @@ void showInfo(){
   delay(150);
   Serial.print("Batterispenning:        ");
   delay(150);
-  Serial.println(ball.getBatteryLevel());
+  Serial.println((int) (100 * ball.getBatteryLevel()));
   delay(150);
   Serial.print("x-verdi ved fritt fall: ");
   delay(150);
@@ -456,7 +456,7 @@ void initCounters() {
 }
 
 void defaultColor() {
-  ball.setColor(1,1,1);
+  ball.setColor(1,10,1);
 }
 
 void emptySerialBuffer() {
