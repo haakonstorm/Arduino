@@ -40,14 +40,27 @@ void setup(){
   MsTimer2::set(5, processAD);
   MsTimer2::start();
   ball.setSiteSwapColor(0);
-  forceThreshold[6] = 3000;
-  forceThreshold[7] = 4000;
-  forceThreshold[8] = 5000;
-  forceThreshold[9] = 6000;
-  forceThreshold[10] = 7000; // alt over er sikker 3
-  forceThreshold[11] = 8000;
-  forceThreshold[12] = 9000;
-  forceThreshold[13] = 10000; // sikker 4
+  forceThreshold[6] = 2000; // lav 2
+  forceThreshold[7] = 3000; // alt over er sikker 2
+  forceThreshold[8] = 5000; // høy 2
+  
+  forceThreshold[9] = 6500; // lav 3
+  forceThreshold[10] = 7500; // alt over er sikker 3
+  forceThreshold[11] = 9000; // høy tre
+  
+  forceThreshold[12] = 10200; // lav fire
+  forceThreshold[13] = 11000; // sikker 4
+  forceThreshold[14] = 12000; // høy 4
+  
+  forceThreshold[15] = 13000; // lav 5
+  forceThreshold[16] = 14000; // sikker 5
+  forceThreshold[17] = 15000; // lav 5
+  
+  forceThreshold[18] = 16000; // lav 6
+  forceThreshold[19] = 16000; // lav 6
+  forceThreshold[20] = 16000; // lav 6
+
+
 }
 
 void processAD(){
