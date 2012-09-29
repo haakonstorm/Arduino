@@ -12,7 +12,7 @@ void setup(){
   MsTimer2::set(5, processAD);
   MsTimer2::start();
   ball.setColor(3,3,3);
-  ball.setFadeSpeed(10);
+  Serial.println(ball.getForceIntegral());
 }
 
 void processAD(){
@@ -21,7 +21,6 @@ void processAD(){
 }
 
 void loop(){
-
   if(ball.getLanded()){
     ball.resetLanded();
     ball.setSiteSwapColor(3);
