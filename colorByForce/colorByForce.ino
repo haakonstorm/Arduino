@@ -7,7 +7,6 @@ Ball2 ball;
 int force, simpleColor;
 
 void setup(){
-  Serial.begin(19200);
   checkBattery();
   MsTimer2::set(5, processAD);
   MsTimer2::start();
@@ -21,7 +20,6 @@ void processAD(){
 
   if(ball.getLanded()){
     ball.resetLanded();
-    sendCommand(0, 'F', 0, 1, 1);
     ball.setTargetBrightness(1);
     ball.setFadeSpeed(1);
   }
@@ -32,9 +30,6 @@ void processAD(){
     force = ball.getForceIntegral();
     simpleColor = map(constrain(force, 6000, 12000), 6000, 12000, 150, 255);
     
-    sendCommand(0, 'S', simpleColor, 0, 0);
-    sendCommand(0, 'F', 0, 255, 7);
-    sendCommand(0, 'F', 0, 255, 7);
     ball.setSimpleColor((byte) simpleColor);
     ball.setTargetBrightness(255);
     ball.setFadeSpeed(7);
