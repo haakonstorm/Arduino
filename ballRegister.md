@@ -11,3 +11,5 @@ Kjører fra ISP, men ikke fra batteri. Vår teori: Batteri var deep discharged. 
 **2013-02-22  haakosh #002**
 Kan programmeres, men ifølge en lapp er det noe galt med radioen. Det sto: "sender ikke. mottar ikke."
 
+**2013-02-26  mastensg #003**
+Bryter hadde falt av. Loddet på igjen.
