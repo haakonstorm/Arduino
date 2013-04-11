@@ -50,4 +50,7 @@ Var pakket inn i en lapp hvor det stod "FÅR IKKE PROG.". Lot seg ikke
 programmere over USB. Batterispenning 4.0 V.
 
 **2013-04-11  mastensg #013**
-Den ene batteriledningen var borte.
+Den ene batteriledningen var borte. Vi loddet på en ny ledning. Alt fungerer.
+
+**2013-04-11  mastensg #004**
+Force-program fungerer. Lar seg programmerere. Alt i orden.
