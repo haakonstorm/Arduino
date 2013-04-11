@@ -54,3 +54,6 @@ Den ene batteriledningen var borte. Vi loddet på en ny ledning. Alt fungerer.
 
 **2013-04-11  mastensg #004**
 Force-program fungerer. Lar seg programmerere. Alt i orden.
+
+**2013-04-11  mastensg #014**
+Lar seg ikke programmere over USB. 0.9 V på batteriet.
