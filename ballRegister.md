@@ -48,3 +48,6 @@ programmere over USB. Batterispenning 3.9 V.
 **2013-02-26  mastensg #012**
 Var pakket inn i en lapp hvor det stod "FÅR IKKE PROG.". Lot seg ikke
 programmere over USB. Batterispenning 4.0 V.
+
+**2013-04-11  mastensg #013**
+Den ene batteriledningen var borte.
